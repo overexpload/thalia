@@ -4,7 +4,7 @@ from rest_framework import status
 
 
 @api_view(["POST"])
-def home(request):
+def index(request):
     content: dict = request.data
     query = content.get("query")
     if query is None:
