@@ -21,3 +21,6 @@ urlpatterns = [
     # path("admin/", admin.site.urls),
     path("chat/", include("chat.urls"))
 ]
+
+handler404 = "utils.exception_handler.error_404"
+handler500 = "utils.exception_handler.error_500"
