@@ -1,7 +1,7 @@
 const express = require('express');
 const { isLogedIn } = require('../middlewares/authMiddleware');
-const { getRights } = require('../controller/myRights')
+const { getContents } = require('../controller/myBody')
 const router = express.Router();
 
-router.get('/', isLogedIn, getRights)
+router.get('/', getContents)
 module.exports = router;
