@@ -1,5 +1,10 @@
+const Rights = require('../models/rightsModel')
 
-
+/**
+ * @desc request fetching all rights
+ * @route GET /api/admin/rights
+ * @access private
+ */
 const getRights = async (req, res, next) => {
     try {
         console.log("get rights")
@@ -8,6 +13,36 @@ const getRights = async (req, res, next) => {
     }
 }
 
+/**
+ * @desc request creating rights
+ * @route POST /api/admin/rights
+ * @access private
+ */
+const postRights = async (req, res, next) => {
+    try {
+        const { name, discription, image } = req.body;
+        if (!name || !discription || !image) {
+            res.status(400);
+            throw new Error('Details missing')
+        }
+        const newRight = await new Rights({
+            name, discription, image
+        }).save()
+        if (newRight) {
+            res.status(201).json({
+                success: true,
+                message: 'new rights created successfully',
+                newRight
+            })
+        } else {
+            throw new Error('Internal server error')
+        }
+    } catch (error) {
+        next(error.message);
+    }
+}
+
 module.exports = {
-    getRights
+    getRights,
+    postRights
 }
