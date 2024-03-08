@@ -60,7 +60,7 @@ const verifyMail = async (req, res, next) => {
     try {
         if (!req.body.email) {
             res.status(400)
-            return next(Error("Invalid email address"))
+            throw new Error("Invalid email address")
         }
         const user = await User.findOne({ email: req.body.email });
         if (user) {
@@ -93,9 +93,43 @@ const verifyMail = async (req, res, next) => {
     }
 }
 
+/**
+ * @desc request for verifying otp
+ * @route POST /api/verify-otp
+ * @access public
+ */
+const verifyOtp = async (req, res, next) => {
+    try {
+        if (!req.body.otp) {
+            res.status(400)
+            throw new Error('OTP not found')
+        }
+        const otp = await OTP.findOne({ email: req.body.email });
+        if (otp) {
+            const match = await bcrypt.compare(req.body.otp, otp.otp);
+            if (match) {
+                res.status(200).json({
+                    success: true,
+                    message: "otp matched",
+                    matchOtp: true
+                })
+            } else {
+                res.status(400)
+                throw new Error('OTP not matched')
+            }
+        } else {
+            res.status(404);
+            throw new Error("email not found")
+        }
+    } catch (error) {
+        next(error.message);
+    }
+}
+
 
 module.exports = {
     signup,
-    verifyMail
+    verifyMail,
+    verifyOtp
 }
 
