@@ -1,6 +1,6 @@
 <p align="center">
     <picture>
-    <img alt="thalia" src="https://raw.githubusercontent.com/izam-mohammed/thalia/main/assets/logo.png" height="180">
+    <img alt="thalia" src="./assets/logo.png" height="180">
     </picture>
 
 </p>
@@ -50,7 +50,7 @@ Thalia is a cutting-edge website designed to empower women in every aspect of th
 
 <p align="center">
     <picture>
-    <img alt="thalia" src="https://raw.githubusercontent.com/izam-mohammed/thalia/main/assets/ui_demo.png" width=80%>
+    <img alt="thalia" src="./assets/ui_demo.png" width=80%>
     </picture>
 
 </p>
