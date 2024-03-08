@@ -84,7 +84,7 @@ const verifyMail = async (req, res, next) => {
             sendMail(mailOptions);
 
             res.status(201).json({
-                status: "created",
+                success: true,
                 message: "OTP send successfully",
             })
         }
@@ -126,10 +126,49 @@ const verifyOtp = async (req, res, next) => {
     }
 }
 
+/**
+ * @desc request for sign in 
+ * @route POST /api/signin
+ * @access public
+ */
+const signin = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            res.status(400);
+            throw new Error('Invalid credentials')
+        }
+        const user = await User.findOne({ email: email, is_blocked: false })
+        if (!user) {
+            res.status(409);
+            throw new Error('Invalid email or password')
+        }
+        const match = await bcrypt.compare(password, user.password);
+        if (match) {
+            const token = await generateToken(user.email, user._id);
+            res.status(201).json({
+                success: true,
+                message: "User loged in successfully",
+                user: {
+                    _id: user._id,
+                    email: user.email,
+                    role: user.role
+                },
+                token
+            });
+        } else {
+            res.status(401);
+            throw new Error("Invalid email or password")
+        }
+    } catch (error) {
+        next(error.message);
+    }
+}
 
 module.exports = {
     signup,
     verifyMail,
-    verifyOtp
+    verifyOtp,
+    signin
 }
 
