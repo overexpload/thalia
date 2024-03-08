@@ -7,7 +7,12 @@ const Rights = require('../models/rightsModel')
  */
 const getRights = async (req, res, next) => {
     try {
-        console.log("get rights")
+        const rights = await Rights.find();
+        res.status(200).json({
+            success: true,
+            message: 'all rights fetched',
+            rights
+        })
     } catch (error) {
         next(error.message);
     }
