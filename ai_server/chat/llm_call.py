@@ -1,19 +1,19 @@
 from typing import Dict, Union
 import os
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from .prompt import PROMPT
 
 def call(input: str) -> Dict[str, Union[bool, str]]:
-    if "GOOGLE_API_KEY" not in os.environ:
+    if "OPENAI_API_KEY" not in os.environ:
         return {
             "success": False,
-            "message": "Gemini API not found",
+            "message": "OpenAI API key not found",
             }
         
     prompt = ChatPromptTemplate.from_template(PROMPT)
-    model = ChatGoogleGenerativeAI(model="gemini-pro", convert_system_message_to_human=True)
+    model = ChatOpenAI(temperature=0)
     chain  = prompt | model | StrOutputParser()
     
     response:str = chain.invoke({"prompt": input})
