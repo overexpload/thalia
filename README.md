@@ -50,7 +50,7 @@ Thalia is a cutting-edge website designed to empower women in every aspect of th
 
 <p align="center">
     <picture>
-    <img alt="thalia" src="./assets/ui_demo.png" height="480">
+    <img alt="thalia" src="./assets/ui_demo.png" width=80%>
     </picture>
 
 </p>
