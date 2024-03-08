@@ -1,6 +1,6 @@
 const express = require('express');
 const { isAdminLogedIn } = require('../middlewares/authMiddleware');
-const { getRights, postRights, updateRight, deleteRight } = require('../controller/adminRights')
+const { getRights, postRights, updateRight, deleteRight } = require('../controller/myRights')
 const router = express.Router();
 
 router.get('/', isAdminLogedIn, getRights)
