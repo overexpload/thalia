@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const OTP = require('../models/otpModel')
 
 /**
- * @desc request for sign in 
+ * @desc request for signup 
  * @route POST /api/signup
  * @access public
  */
@@ -138,6 +138,7 @@ const signin = async (req, res, next) => {
             res.status(400);
             throw new Error('Invalid credentials')
         }
+        console.log(email)
         const user = await User.findOne({ email: email, is_blocked: false })
         if (!user) {
             res.status(409);
