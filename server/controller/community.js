@@ -60,7 +60,7 @@ const getSuggestions = async (req, res, next) => {
             {
                 $match: {
                     "members.user_id": {
-                        $in: [req.user._id] // Exclude communities where req.user._id is present in members.user_id
+                        $nin: [req.user._id] // Exclude communities where req.user._id is present in members.user_id
                     }
                 }
             }
@@ -146,9 +146,51 @@ const acceptJoin = async (req, res, next) => {
     }
 }
 
+/**
+ * @desc request for fetching my communities
+ * @route GET /api/community/my-communities
+ * @access private
+ */
+
+const getmyCommunities = async (req, res, next) => {
+    try {
+        const community = await Community.aggregate([
+            {
+                $match: {
+                    is_delete: false,
+                }
+            },
+            {
+                $lookup: {
+                    from: "members",
+                    localField: "_id",
+                    foreignField: "community_id",
+                    as: "members"
+                }
+            },
+            {
+                $match: {
+                    "members.user_id": {
+                        $in: [req.user._id] // Exclude communities where req.user._id is present in members.user_id
+                    }
+                }
+            }
+        ])
+
+        res.status(200).json({
+            success: true,
+            message: 'my community fetched',
+            community
+        })
+    } catch (error) {
+        next(error.message)
+    }
+}
+
 module.exports = {
     createCommunity,
     getSuggestions,
     joinCommunity,
-    acceptJoin
+    acceptJoin,
+    getmyCommunities
 }
