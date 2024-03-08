@@ -4,9 +4,11 @@ require('dotenv').config();
 const connect = require("./config/mongodb");
 const cors = require('cors')
 const morgan = require('morgan')
+const cookieParser = require('cookie-parser');
+const { notFound, errorHandler } = require('./middlewares/errorMiddlewares')
 
-const userRouter = require('./routes/userRouter')
-const adminRouter = require('./routes/adminRouter')
+const userRouter = require('./router/userRouter.js')
+const adminRouter = require('./router/adminRouter')
 const ORIGIN = process.env.NODE_ENV === 'development' ? "http://localhost:4000" : ''
 const corsConfig = {
     origin: ORIGIN,
@@ -14,6 +16,7 @@ const corsConfig = {
 };
 
 //middlewares
+connect();
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
 }
@@ -23,8 +26,11 @@ app.use(cookieParser());
 app.use(cors(corsConfig))
 
 //routes
-app.use('/', userRouter)
-app.use('/admin', adminRouter)
+app.use('/api', userRouter)
+// app.use('/api/admin', adminRouter)
 
-connect();
+//error handler
+// app.use('*', notFound)
+app.use(errorHandler)
+
 app.listen(process.env.PORT, () => console.log('listening on port ' + process.env.PORT))
