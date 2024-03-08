@@ -6,6 +6,7 @@ from langchain_core.output_parsers import StrOutputParser
 
 def call(input: str) -> Dict[str, Union[bool, str]]:
     if "GOOGLE_API_KEY" not in os.environ:
+        print(f"{dict(os.environ).keys()}")      # for debug
         return {
             "success": False,
             "message": "Gemini API not found",
