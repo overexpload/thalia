@@ -2,6 +2,9 @@ const User = require('../models/userModel')
 const Profile = require('../models/profileModel')
 const generateUsername = require('../utils/generateUsername')
 const generateToken = require('../utils/generateToken')
+const generateFourDigitOTP = require('../utils/generateOTP')
+const sendMail = require('../config/nodemailer');
+const bcrypt = require('bcrypt');
 
 /**
  * @desc request for sign in 
@@ -12,10 +15,12 @@ const signup = async (req, res, next) => {
     try {
         const { email, password, fullname } = req.body;
         if (!email || !password || !fullname) {
+            res.status(400)
             throw new Error('Missing credentials')
         }
         const exist = await User.findOne({ email: email });
         if (exist) {
+            res.status(400)
             throw new Error('Email id already exist')
         }
         const newUser = await new User({
@@ -45,9 +50,43 @@ const signup = async (req, res, next) => {
     }
 }
 
+/**
+ * @desc request for verifying mail
+ * @route POST /api/verify-mail
+ * @access public
+ */
 const verifyMail = async (req, res, next) => {
     try {
-        
+        if (!req.body.email) {
+            res.status(400)
+            return next(Error("Invalid email address"))
+        }
+        const user = await User.findOne({ email: req.body.email });
+        if (user) {
+            res.status(400)
+            throw new Error("Email already exist");
+        } else {
+            const otp = await generateFourDigitOTP();
+            const salt = await bcrypt.genSalt(10);
+            const hashedOtp = await bcrypt.hash(otp.toString(), salt);
+            await OTP.updateOne(
+                { email: req.body.email },
+                { $set: { email: req.body.email, otp: hashedOtp } },
+                { upsert: true }
+            );
+            const mailOptions = {
+                from: "sreesanjay7592sachu@gmail.com",
+                to: req.body.email,
+                subject: "Registration to Circle",
+                text: `Your otp for registration is ${otp}`,
+            }
+            sendMail(mailOptions);
+
+            res.status(201).json({
+                status: "created",
+                message: "OTP send successfully",
+            })
+        }
     } catch (error) {
         next(error.message);
     }
