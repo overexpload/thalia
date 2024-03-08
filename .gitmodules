@@ -1,0 +1,3 @@
+[submodule "toxicity-bot"]
+	path = toxicity-bot
+	url = git@github.com:izam-mohammed/toxicity-bot.git
