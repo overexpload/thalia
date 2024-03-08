@@ -3,5 +3,5 @@ const { isLogedIn } = require('../middlewares/authMiddleware');
 const { getContents } = require('../controller/myBody')
 const router = express.Router();
 
-router.get('/', getContents)
+router.get('/', isLogedIn, getContents)
 module.exports = router;
