@@ -13,7 +13,8 @@ const communitySchema = new mongoose.Schema({
     },
     privacy: {
         type: 'string',
-        enum: ['private', 'public']
+        enum: ['private', 'public'],
+        default: 'public',
     },
     is_delete: {
         type: Boolean,
