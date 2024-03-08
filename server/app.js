@@ -27,10 +27,10 @@ app.use(cors(corsConfig))
 
 //routes
 app.use('/api', userRouter)
-// app.use('/api/admin', adminRouter)
+app.use('/api/admin', adminRouter)
 
 //error handler
-// app.use('*', notFound)
+app.use('*', notFound)
 app.use(errorHandler)
 
 app.listen(process.env.PORT, () => console.log('listening on port ' + process.env.PORT))
