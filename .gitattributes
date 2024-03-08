@@ -1,0 +1,18 @@
+# Node.js related
+node_modules/
+npm-debug.log
+
+# Build files
+build/
+dist/
+
+# Environment variables
+.env
+
+# Editor files
+.vscode/
+.idea/
+
+# Python related
+*.pyc
+__pycache__/
