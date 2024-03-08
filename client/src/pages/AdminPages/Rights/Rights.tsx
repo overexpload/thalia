@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Sidebar from "../../../components/Sidebar/Sidebar";
 import AddRight from "../../../components/AddRight/AddRight";
 import EditRight from "../../../components/EditRight/EditRight";
 
@@ -17,10 +16,7 @@ function Rights() {
         rightDetails={rightDetails}
       />
       <AddRight setOpenModal={setOpenModal} openModal={openModal} />
-      <div className="grid grid-cols-12 h-screen bg-background">
-        <div className="col-span-3 text-text">
-          <Sidebar />
-        </div>
+      <div className=" h-screen bg-background">
         <div className="col-span-9">
           {/* Text Components  */}
           <div className="text-text flex justify-between">

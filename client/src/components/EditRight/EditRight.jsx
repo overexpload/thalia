@@ -9,7 +9,9 @@ function EditRight({ setOpenModal, openModal, rightDetails }) {
   });
   useEffect(() => {
     if (rightDetails) {
+      // eslint-disable-next-line react/prop-types
       formData.right_name = rightDetails?.name;
+      // eslint-disable-next-line react/prop-types
       formData.right_desc = rightDetails?.description;
     }
   }, [formData, rightDetails]);

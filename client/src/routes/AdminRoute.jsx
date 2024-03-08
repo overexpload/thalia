@@ -12,14 +12,24 @@ export default function AdminRoute() {
   return (
     <>
       <Suspense fallback={<Loader />}>
-        <Sidebar />
         <Routes>
-          <Route path={"/"} element={<Home />} />
           <Route path={"/login"} element={<Login />} />
-          <Route path={"/managment"} element={<Managment />} />
-          <Route path={"/rights"} element={<Rights />} />
         </Routes>
       </Suspense>
+      <div className="grid grid-cols-12 h-screen bg-background">
+        <div className="col-span-3 text-text">
+          <Sidebar />
+        </div>
+        <div className="col-span-9">
+          <Suspense fallback={<Loader />}>
+            <Routes>
+              <Route path={"/"} element={<Home />} />
+              <Route path={"/managment"} element={<Managment />} />
+              <Route path={"/rights"} element={<Rights />} />
+            </Routes>
+          </Suspense>
+        </div>
+      </div>
     </>
   );
 }
