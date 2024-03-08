@@ -5,14 +5,10 @@ const rightsSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    discription: {
+    content: {
         type: String,
         required: true
     },
-    image: {
-        type: String,
-        required: true
-    }
 }, { timestamps: true });
 
 
