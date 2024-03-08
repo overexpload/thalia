@@ -7,8 +7,8 @@ const morgan = require('morgan')
 const cookieParser = require('cookie-parser');
 const { notFound, errorHandler } = require('./middlewares/errorMiddlewares')
 
-const userRouter = require('./router/userRouter.js')
-const adminRouter = require('./router/adminRouter')
+const userRoute = require('./routes/userRoute.js')
+const adminRoute = require('./routes/adminRoute.js')
 const ORIGIN = process.env.NODE_ENV === 'development' ? "http://localhost:4000" : ''
 const corsConfig = {
     origin: ORIGIN,
@@ -26,8 +26,8 @@ app.use(cookieParser());
 app.use(cors(corsConfig))
 
 //routes
-app.use('/api', userRouter)
-app.use('/api/admin', adminRouter)
+app.use('/api', userRoute)
+app.use('/api/admin', adminRoute)
 
 //error handler
 app.use('*', notFound)
