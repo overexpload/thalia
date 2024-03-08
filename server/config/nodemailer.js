@@ -15,4 +15,4 @@ const sendMail = (mailOptions) => {
         throw new Error('Error sending email')
     });
 }
-module.exports = { sendMail }
+module.exports =  sendMail 

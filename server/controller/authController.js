@@ -5,6 +5,7 @@ const generateToken = require('../utils/generateToken')
 const generateFourDigitOTP = require('../utils/generateOTP')
 const sendMail = require('../config/nodemailer');
 const bcrypt = require('bcrypt');
+const OTP = require('../models/otpModel')
 
 /**
  * @desc request for sign in 
@@ -77,7 +78,7 @@ const verifyMail = async (req, res, next) => {
             const mailOptions = {
                 from: "sreesanjay7592sachu@gmail.com",
                 to: req.body.email,
-                subject: "Registration to Circle",
+                subject: "Email verification",
                 text: `Your otp for registration is ${otp}`,
             }
             sendMail(mailOptions);
