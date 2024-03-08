@@ -19,11 +19,14 @@ const notFound = (req, res) => {
 * @param {Response} res
 */
 
+// eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
-    const statuscode = res.statusCode == 200 ? 500 : res.statusCode
+    if (res.statusCode === 200) {
+        res.status(500)
+    }
     res.json({
         success: false,
-        message: err?.message,
+        message: err || 'internal server error',
     });
 };
 

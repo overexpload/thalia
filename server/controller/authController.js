@@ -1,6 +1,7 @@
 const User = require('../models/userModel')
 const Profile = require('../models/profileModel')
 const generateUsername = require('../utils/generateUsername')
+const generateToken = require('../utils/generateToken')
 
 /**
  * @desc request for sign in 
@@ -10,7 +11,7 @@ const generateUsername = require('../utils/generateUsername')
 const signup = async (req, res, next) => {
     try {
         const { email, password, fullname } = req.body;
-        if (!email || !password || fullname) {
+        if (!email || !password || !fullname) {
             throw new Error('Missing credentials')
         }
         const exist = await User.findOne({ email: email });
@@ -28,11 +29,25 @@ const signup = async (req, res, next) => {
             username: await generateUsername(),
             fullname
         }).save()
-
+        const token = await generateToken(newUser.email, newUser._id)
         res.status(201).json({
             success: true,
-            message: 'user registered successfully'
+            message: 'user registered successfully',
+            user: {
+                _id: newUser._id,
+                email: newUser.email,
+                role: newUser.role
+            },
+            token
         })
+    } catch (error) {
+        next(error.message);
+    }
+}
+
+const verifyMail = async (req, res, next) => {
+    try {
+        
     } catch (error) {
         next(error.message);
     }
@@ -40,6 +55,7 @@ const signup = async (req, res, next) => {
 
 
 module.exports = {
-    signup
+    signup,
+    verifyMail
 }
 

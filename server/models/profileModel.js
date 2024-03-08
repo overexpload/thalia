@@ -4,9 +4,11 @@ const profileSchema = new mongoose.Schema(
     {
         fullname: {
             type: String,
+            required: true,
         },
         username: {
             type: String,
+            required: true,
         },
         profile_img: {
             type: String
