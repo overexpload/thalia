@@ -13,6 +13,8 @@ function CheckReport({ openModal, setOpenModal, reportObject }) {
           <h1 className="text-white font-bold">Reports</h1>
         </Modal.Header>
         <Modal.Body className="ring-1 bg-background rounded-b-md px-2 py-2">
+
+
           <div className="w-full">
             <label htmlFor="">
               <h1 className="text-white py-2">Report Type</h1>
@@ -36,9 +38,10 @@ function CheckReport({ openModal, setOpenModal, reportObject }) {
               ></textarea>
             </label>
           </div>
-          <button className="text-primary border-2 px-2 py-2 rounded-md float-end">
-            Block User
-          </button>
+
+
+
+          
         </Modal.Body>
       </Modal>
     </>

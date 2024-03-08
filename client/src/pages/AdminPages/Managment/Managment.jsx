@@ -1,4 +1,3 @@
-import Sidebar from "../../../components/Sidebar/Sidebar";
 import { useState } from "react";
 import CheckReport from "../../../components/CheckReport/CheckReport";
 
@@ -16,10 +15,7 @@ function Managment() {
         setOpenModal={setOpenModal}
         reportObject={reportObject}
       />
-      <div className="grid grid-cols-12 h-screen bg-background">
-        <div className="col-span-3 text-text">
-          <Sidebar />
-        </div>
+      <div className=" h-screen bg-background">
         <div className="col-span-9">
           <div className="text-text">
             <h1 className="text-2xl py-12">User Managment</h1>
