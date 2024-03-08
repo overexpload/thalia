@@ -4,7 +4,7 @@ import Logo from "../../assets/Logo.svg";
 export default function Navbar() {
   return (
     <>
-      <div className="flex w-full px-10 py-1 bg-background">
+      <div className="flex sticky z-20 top-0 w-full px-10 py-1 bg-background">
         <Link to={"/"}>
           <img src={Logo} className="w-24" alt="" />
         </Link>
