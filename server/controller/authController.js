@@ -1,5 +1,5 @@
 const User = require('../models/userModel')
-const UserProfile = require('../models/profileModel')
+const Profile = require('../models/profileModel')
 const generateUsername = require('../utils/generateUsername')
 
 /**
@@ -20,18 +20,19 @@ const signup = async (req, res, next) => {
         const newUser = await new User({
             email, password
         }).save()
-        if (newUser) {
-            await new UserProfile({
-                username: await generateUsername(),
-                fullname
-            }).save()
-            res.status(201).json({
-                success: true,
-                message: 'user registered successfully'
-            })
-        }else{
+        if (!newUser) {
             throw new Error('Internal server error')
         }
+        await new Profile({
+            user_id: newUser._id,
+            username: await generateUsername(),
+            fullname
+        }).save()
+
+        res.status(201).json({
+            success: true,
+            message: 'user registered successfully'
+        })
     } catch (error) {
         next(error.message);
     }
