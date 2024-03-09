@@ -3,19 +3,18 @@ import { Routes, Route } from "react-router";
 import UserRoute from "./routes/UserRoute";
 import AdminRoute from "./routes/AdminRoute";
 import Navbar from "./components/Nabar/Navbar";
-import { Provider } from "react-redux";
-import { store } from "./app/store.js";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <>
       <Navbar />
-      <Provider store={store}>
-        <Routes>
-          <Route path={"/admin/*"} element={<AdminRoute />} />
-          <Route path={"/*"} element={<UserRoute />} />
-        </Routes>
-      </Provider>
+      <Routes>
+        <Route path={"/admin/*"} element={<AdminRoute />} />
+        <Route path={"/*"} element={<UserRoute />} />
+      </Routes>
+      <ToastContainer stacked />
     </>
   );
 }

@@ -33,7 +33,7 @@ const authSlice = createSlice({
         })
             .addCase(login.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isSuccess = false;
+                state.isSuccess = true;
                 state.user = action.payload.user;
                 localStorage.setItem("user", JSON.stringify(action.payload.user));
                 Cookies.set("token", action.payload.token, { expires: 3 });
@@ -41,6 +41,7 @@ const authSlice = createSlice({
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
+                console.log("action payload", action)
                 state.errorMessage = action.payload;
             })
             .addCase(signUp.pending, (state) => {
@@ -48,7 +49,7 @@ const authSlice = createSlice({
             })
             .addCase(signUp.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isSuccess = false;
+                state.isSuccess = true;
                 state.user = action.payload.user;
                 localStorage.setItem("user", JSON.stringify(action.payload.user));
                 Cookies.set("token", action.payload.token, { expires: 3 });
