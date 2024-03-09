@@ -1,4 +1,6 @@
-const Discussion = require("../models/discussionModel")
+const Discussion = require("../models/discussionModel");
+const Members = require("../models/membersModel");
+const mongoose = require('mongoose')
 
 /**
  * @desc function creating discussion
@@ -6,17 +8,116 @@ const Discussion = require("../models/discussionModel")
  * @access private
  */
 const createDiscussion = async (req, res, next) => {
-    const { content, community_id, user_id } = req.body;
-    if (!content || !community_id || !user_id) {
-        res.status(400);
-        return next(new Error('Invalid details'));
+    try {
+        const { content, community_id, user_id } = req.body;
+        if (!content || !community_id || !user_id) {
+            res.status(400);
+            throw new Error('details missing')
+        }
+        const newDiscussion = await new Discussion(req.body).save()
+        if (newDiscussion) {
+            const discussion = await Discussion.aggregate([
+                {
+                    $match: {
+                        _id: newDiscussion._id
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "profiles",
+                        localField: 'user_id',
+                        foreignField: 'user_id',
+                        as: 'userProfile',
+                        pipeline: [
+                            {
+                                $lookup: {
+                                    from: "users",
+                                    localField: 'user_id',
+                                    foreignField: '_id',
+                                    as: 'user',
+                                }
+                            },
+                            {
+                                $unwind: {
+                                    path: '$user'
+                                }
+                            },
+                            {
+                                $project: {
+                                    username: 1,
+                                    profile_img: 1,
+                                    fullname: 1,
+                                    user_id: 1,
+                                    email: '$user.email'
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    $unwind: {
+                        path: '$userProfile'
+                    }
+                }
+            ])
+            if (discussion) {
+                res.status(200).json({
+                    success: true,
+                    message: 'new discussion added',
+                    discussion: discussion[0]
+                })
+            }
+        }
+    } catch (error) {
+        next(error.message)
     }
-    const newDiscussion = await new Discussion(req.body).save()
-    if (newDiscussion) {
-        const discussion = await Discussion.aggregate([
+
+}
+
+/**
+ * @desc function discussions of a community
+ * @route GET /api/community/discussions/:id
+ * @access private
+ */
+
+const getDiscussions = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const page = req.query.page;
+        if (!id) {
+            res.status(400);
+            throw new Error("community not found")
+        }
+        if (!page) {
+            res.status(400);
+            throw new Error("page not found")
+        }
+
+
+        const discussions = await Discussion.aggregate([
             {
                 $match: {
-                    _id: newDiscussion._id
+                    community_id: new mongoose.Types.ObjectId(id),
+                    is_delete: false
+                }
+            },
+            {
+                $sort: {
+                    createdAt: -1
+                }
+            },
+            {
+                $skip: (page - 1) * 10
+            },
+            {
+                $limit: 10
+            },
+            {
+                $lookup: {
+                    from: "comments",
+                    localField: '_id',
+                    foreignField: 'discussion_id',
+                    as: "comments",
                 }
             },
             {
@@ -55,312 +156,233 @@ const createDiscussion = async (req, res, next) => {
                 $unwind: {
                     path: '$userProfile'
                 }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    content: 1,
+                    user_id: 1,
+                    likes: 1,
+                    community_id: 1,
+                    content_type: 1,
+                    file_type: 1,
+                    caption: 1,
+                    is_delete: 1,
+                    createdAt: 1,
+                    userProfile: 1,
+                    comments: { $size: "$comments" },
+                }
             }
         ])
-        if (discussion) {
-            res.status(200).json({
-                status: 'created',
-                message: 'new discussion added',
-                discussion: discussion[0]
-            })
-        }
-    }
 
+
+        if (discussions) {
+            res.status(200).json({
+                success: true,
+                message: 'discussion fetched',
+                discussions
+            })
+        } else {
+            throw new Error('Internal server error')
+        }
+    } catch (error) {
+        next(error.message)
+
+    }
 }
 
 /**
- * @desc function discussions of a community
- * @route GET /api/community/discussions/:id
+ * @desc requst for recent discussions of a community
+ * @route GET /api/community/discussions/recent
  * @access private
  */
-
-const getDiscussions = async (req, res, next) => {
-    const { id } = req.params;
-    if (!id) {
-        res.status(400);
-        return next(new Error('community not found'))
-    }
-
-    const discussions = await Discussion.aggregate([
-        {
-            $match: {
-                community_id: new ObjectId(id),
-                is_delete: false
-            }
-        },
-        {
-            $sort: {
-                createdAt: -1
-            }
-        },
-        {
-            skip: (page - 1) * 10
-        },
-        {
-            $limit: 10
-        },
-        {
-            $lookup: {
-                from: "comments",
-                localField: '_id',
-                foreignField: 'post_id',
-                as: "comments",
-            }
-        },
-        {
-            $lookup: {
-                from: "userprofiles",
-                localField: 'user_id',
-                foreignField: 'user_id',
-                as: 'userProfile',
-                pipeline: [
-                    {
-                        $lookup: {
-                            from: "users",
-                            localField: 'user_id',
-                            foreignField: '_id',
-                            as: 'user',
-                        }
-                    },
-                    {
-                        $unwind: {
-                            path: '$user'
-                        }
-                    },
-                    {
-                        $project: {
-                            username: 1,
-                            profile_img: 1,
-                            fullname: 1,
-                            user_id: 1,
-                            verified: 1,
-                            email: '$user.email'
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            $unwind: {
-                path: '$userProfile'
-            }
-        },
-        {
-            $project: {
-                _id: 1,
-                content: 1,
-                user_id: 1,
-                likes: 1,
-                community_id: 1,
-                content_type: 1,
-                file_type: 1,
-                caption: 1,
-                is_delete: 1,
-                createdAt: 1,
-                userProfile: 1,
-                comments: { $size: "$comments" },
-            }
+const getRecentDiscussion = async (req, res, next) => {
+    try {
+        const page = req.query.page
+        if (!page) {
+            throw new Error('pagination not found')
         }
-    ])
+
+        const community = await Members.find({ user_id: req.user?._id, status: 'active' })
+        const communityId = community.map((item) => item.community_id);
+
+        const discussions = await Discussion.aggregate([
+            {
+                $match: {
+                    community_id: { $in: communityId },
+                    is_delete: false
+                }
+            },
+            {
+                $sort: {
+                    createdAt: -1
+                }
+            },
+            {
+                $skip: (page - 1) * 10
+            },
+            {
+                $limit: 10
+            },
+            {
+                $lookup: {
+                    from: "comments",
+                    localField: '_id',
+                    foreignField: 'discussion_id',
+                    as: "comments",
+                }
+            },
+            {
+                $lookup: {
+                    from: "profiles",
+                    localField: 'user_id',
+                    foreignField: 'user_id',
+                    as: 'userProfile',
+                    pipeline: [
+                        {
+                            $lookup: {
+                                from: "users",
+                                localField: 'user_id',
+                                foreignField: '_id',
+                                as: 'user',
+                            }
+                        },
+                        {
+                            $unwind: {
+                                path: '$user'
+                            }
+                        },
+                        {
+                            $project: {
+                                username: 1,
+                                profile_img: 1,
+                                fullname: 1,
+                                user_id: 1,
+                                verified: 1,
+                                email: '$user.email'
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $unwind: {
+                    path: '$userProfile'
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    content: 1,
+                    user_id: 1,
+                    likes: 1,
+                    community_id: 1,
+                    content_type: 1,
+                    file_type: 1,
+                    caption: 1,
+                    is_delete: 1,
+                    createdAt: 1,
+                    userProfile: 1,
+                    comments: { $size: "$comments" },
+                }
+            }
+        ])
 
 
-    if (discussions) {
-        res.status(200).json({
-            status: 'ok',
-            message: 'discussion fetched',
-            discussions
-        })
-    } else {
-        next(new Error('Internal server error'))
+        if (discussions) {
+            res.status(200).json({
+                success: true,
+                message: 'recent discussion fetched',
+                discussions
+            })
+        } else {
+            throw new Error('Internal server error')
+        }
+    } catch (error) {
+        next(error.message)
     }
 }
-)
 
-// /**
-//  * @desc requst for recent discussions of a community
-//  * @route GET /api/community/discussions/recent
-//  * @access private
-//  */
-// export const getRecentDiscussion: RequestHandler = asyncHandler(
-//     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-//         const page = (req.query.page && typeof (req.query.page) === "string") ? req.query.page : null
-//         const pageSize = 3;
-//         const query = page ? {
-//             createdAt: { $lt: new Date(page) }
-//         } : {}
+/**
+ * @desc function for deleting a discussions 
+ * @route DELETE /api/community/discussions/:id
+ * @access private
+ */
+const deleteDiscussion = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        if (!id) {
+            res.status(400);
+            throw new Error('discussion not found')
+        }
+        const deletedDiscussion = await Discussion.findOneAndUpdate({ _id: id }, { $set: { is_delete: true } }, { new: true })
+        if (deletedDiscussion) {
+            res.status(200).json({
+                success: true,
+                message: 'discussion deleted',
+                deletedDiscussion
+            })
+        } else {
+            throw new Error('internal server error')
+        }
+    } catch (error) {
+        next(error.message)
+    }
+}
 
-//         const community = await Members.find({ user_id: req.user?._id, status: 'active' })
-//         const communityId = community.map((item) => item.community_id);
+/**
+ * @desc function for like a discussions 
+ * @route PUT /api/community/discussions/like/:id
+ * @access private
+ */
+const likeDiscussion = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        if (!id) {
+            res.status(400);
+            throw new Error('discussion not found')
+        }
+        const likedDiscussion = await Discussion.findOneAndUpdate({ _id: id }, { $addToSet: { likes: req.user?._id } }, { new: true })
+        if (likedDiscussion) {
+            res.status(200).json({
+                success: true,
+                message: 'discussion liked',
+                likedDiscussion
+            })
+        } else {
+            throw new Error('internal server error')
+        }
+    } catch (error) {
+        next(error.message)
+    }
+}
 
-//         const discussions = await Discussion.aggregate([
-//             {
-//                 $match: {
-//                     community_id: { $in: communityId },
-//                     is_delete: false
-//                 }
-//             },
-//             {
-//                 $sort: {
-//                     createdAt: -1
-//                 }
-//             },
-//             {
-//                 $match: query
-//             },
-//             {
-//                 $limit: pageSize
-//             },
-//             {
-//                 $lookup: {
-//                     from: "comments",
-//                     localField: '_id',
-//                     foreignField: 'post_id',
-//                     as: "comments",
-//                 }
-//             },
-//             {
-//                 $lookup: {
-//                     from: "userprofiles",
-//                     localField: 'user_id',
-//                     foreignField: 'user_id',
-//                     as: 'userProfile',
-//                     pipeline: [
-//                         {
-//                             $lookup: {
-//                                 from: "users",
-//                                 localField: 'user_id',
-//                                 foreignField: '_id',
-//                                 as: 'user',
-//                             }
-//                         },
-//                         {
-//                             $unwind: {
-//                                 path: '$user'
-//                             }
-//                         },
-//                         {
-//                             $project: {
-//                                 username: 1,
-//                                 profile_img: 1,
-//                                 fullname: 1,
-//                                 user_id: 1,
-//                                 verified: 1,
-//                                 email: '$user.email'
-//                             }
-//                         }
-//                     ]
-//                 }
-//             },
-//             {
-//                 $unwind: {
-//                     path: '$userProfile'
-//                 }
-//             },
-//             {
-//                 $project: {
-//                     _id: 1,
-//                     content: 1,
-//                     user_id: 1,
-//                     likes: 1,
-//                     community_id: 1,
-//                     content_type: 1,
-//                     file_type: 1,
-//                     caption: 1,
-//                     is_delete: 1,
-//                     createdAt: 1,
-//                     userProfile: 1,
-//                     comments: { $size: "$comments" },
-//                 }
-//             }
-//         ])
-
-
-//         if (discussions) {
-//             res.status(200).json({
-//                 status: 'ok',
-//                 message: 'discussion fetched',
-//                 discussions
-//             })
-//         } else {
-//             next(new Error('Internal server error'))
-//         }
-//     }
-// )
-
-// /**
-//  * @desc function for deleting a discussions 
-//  * @route DELETE /api/community/discussions/:id
-//  * @access private
-//  */
-// export const deleteDiscussion: RequestHandler = asyncHandler(
-//     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-//         const { id } = req.params;
-//         if (!id) {
-//             res.status(400);
-//             return next(new Error('discussion not found'))
-//         }
-//         const deletedDiscussion = await Discussion.findOneAndUpdate({ _id: id }, { $set: { is_delete: true } }, { new: true })
-//         if (deletedDiscussion) {
-//             res.status(200).json({
-//                 status: 'ok',
-//                 message: 'discussion deleted',
-//                 deletedDiscussion
-//             })
-//         } else {
-//             next(new Error('Internal server error'))
-//         }
-//     }
-// )
-
-// /**
-//  * @desc function for like a discussions 
-//  * @route DELETE /api/community/discussions/like/:id
-//  * @access private
-//  */
-// export const likeDiscussion: RequestHandler = asyncHandler(
-//     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-//         const { id } = req.params;
-//         if (!id) {
-//             res.status(400);
-//             return next(new Error('discussion not found'))
-//         }
-//         const likedDiscussion = await Discussion.findOneAndUpdate({ _id: id }, { $addToSet: { likes: req.user?._id } }, { new: true })
-//         if (likedDiscussion) {
-//             res.status(200).json({
-//                 status: 'ok',
-//                 message: 'discussion liked',
-//                 likedDiscussion
-//             })
-//         } else {
-//             next(new Error('Internal server error'))
-//         }
-//     }
-// )
-
-// /**
-//  * @desc function for dislike a discussions 
-//  * @route DELETE /api/community/discussions/dislike/:id
-//  * @access private
-//  */
-// export const dislikeDiscussion: RequestHandler = asyncHandler(
-//     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-//         const { id } = req.params;
-//         if (!id) {
-//             res.status(400);
-//             return next(new Error('discussion not found'))
-//         }
-//         const likedDiscussion = await Discussion.findOneAndUpdate({ _id: id }, { $pull: { likes: req.user?._id } }, { new: true })
-//         if (likedDiscussion) {
-//             res.status(200).json({
-//                 status: 'ok',
-//                 message: 'discussion disliked',
-//                 likedDiscussion
-//             })
-//         } else {
-//             next(new Error('Internal server error'))
-//         }
-//     }
-// )
+/**
+ * @desc function for dislike a discussions 
+ * @route PUT /api/community/discussions/dislike/:id
+ * @access private
+ */
+const dislikeDiscussion = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        if (!id) {
+            res.status(400);
+            throw new Error('discussion not found')
+        }
+        const likedDiscussion = await Discussion.findOneAndUpdate({ _id: id }, { $pull: { likes: req.user?._id } }, { new: true })
+        if (likedDiscussion) {
+            res.status(200).json({
+                success: true,
+                message: 'discussion disliked',
+                likedDiscussion
+            })
+        } else {
+            throw new Error('internal server error')
+        }
+    } catch (error) {
+        next(error.message)
+    }
+}
 
 // /**
 //  * @desc rquest for add commment on a discussions 
@@ -682,5 +704,9 @@ const getDiscussions = async (req, res, next) => {
 
 
 module.exports = {
-    createDiscussion
+    createDiscussion,
+    getDiscussions,
+    getRecentDiscussion,
+    deleteDiscussion,
+    likeDiscussion
 }
