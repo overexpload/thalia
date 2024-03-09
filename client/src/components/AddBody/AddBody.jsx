@@ -40,7 +40,7 @@ function AddBody({ openModal, setOpenModal }) {
               <h1 className="text-white py-2">Name of the Topic</h1>
               <input
                 type="text"
-                className="w-full rounded-md bg-gray-700 text-text"
+                className="w-full rounded-md bg-gray-800 text-text focus:ring-0"
                 value={formData.name}
                 onChange={handleChange}
                 name="name"
@@ -56,12 +56,12 @@ function AddBody({ openModal, setOpenModal }) {
                 onChange={handleChange}
                 id=""
                 rows={8}
-                className="w-full rounded-md bg-gray-700 text-white"
+                className="w-full rounded-md bg-gray-800 text-white focus:ring-0"
               ></textarea>
             </label>
           </div>
           <button
-            className="text-primary border-2 px-2 py-2 rounded-md float-end"
+            className="text-primary border px-5 py-1 rounded-md float-end hover:bg-primary hover:text-background"
             onClick={handleAdd}
           >
             Add Topic

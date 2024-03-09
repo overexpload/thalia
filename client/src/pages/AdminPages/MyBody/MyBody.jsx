@@ -56,7 +56,7 @@ function MyBody() {
         bodyDetails={editBody ? editBody : null}
       />
       <AddBody setOpenModal={setOpenModal} openModal={openModal} />
-      <div className=" h-screen bg-background">
+      <div className="min-h-screen bg-background">
         <div className="col-span-9">
           {/* Text Components  */}
           <div className="text-text flex justify-between">

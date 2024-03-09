@@ -1,12 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckReport from "../../../components/CheckReport/CheckReport";
+import { getUsers } from "../../../Services/userService";
+import { blockUser } from "../../../Services/userService";
+import { toast } from "react-toastify";
 
 function Managment() {
   const [openModal, setOpenModal] = useState(false);
   const [reportObject, setReportObject] = useState();
+
+  const [users, setUsers] = useState([]);
+
   const handleModal = () => {
     setOpenModal(true);
   };
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await getUsers();
+      if (response.success === true) {
+        setUsers(response.users);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  const handleBlock = async (userId) => {
+    const response = await blockUser(userId);
+    if (response.success === true) {
+      toast(response.message);
+    }
+  };
+
   return (
     <>
       <CheckReport
@@ -56,7 +79,10 @@ function Managment() {
                       </button>
                     </td>
                     <td className="px-6 py-4">
-                      <button className="border py-1 px-6 rounded hover:bg-red-700">
+                      <button
+                        className="border py-1 px-6 rounded hover:bg-red-700"
+                        onClick={() => handleBlock(user?._id)}
+                      >
                         Block
                       </button>
                     </td>
