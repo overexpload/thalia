@@ -7,11 +7,15 @@ const Rights = require('../models/rightsModel')
  */
 const getRights = async (req, res, next) => {
     try {
-        const rights = await Rights.find();
+        const page = req.query.page;
+        const search = req.query.search
+        const count = await Rights.countDocuments()
+        const rights = await Rights.find({ name: { $regex: new RegExp(search, 'i') } }).skip((page - 1) * 10).limit(10);
         res.status(200).json({
             success: true,
             message: 'all rights fetched',
-            rights
+            rights,
+            count
         })
     } catch (error) {
         next(error.message);

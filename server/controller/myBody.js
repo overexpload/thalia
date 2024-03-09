@@ -2,16 +2,20 @@ const MyBody = require('../models/myBodyModel')
 
 /**
  * @desc request fetching all content
- * @route GET /api/admin/my-body
+ * @route GET /api/admin/my-body?page=1&&search='aa'
  * @access private
  */
 const getContents = async (req, res, next) => {
     try {
-        const contents = await MyBody.find();
+        const page = req.query.page;
+        const search = req.query.search
+        const count = await MyBody.countDocuments()
+        const contents = await MyBody.find({ name: { $regex: new RegExp(search, 'i') } }).skip((page - 1) * 10).limit(10);
         res.status(200).json({
             success: true,
             message: 'all contents fetched',
-            contents
+            contents,
+            count
         })
     } catch (error) {
         next(error.message);
