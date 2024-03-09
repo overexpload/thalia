@@ -24,7 +24,6 @@ function Rights() {
     setEditRight(rightToEdit);
   };
   useEffect(() => {
-    console.log("Runnning..");
     const getRights = async () => {
       const response = await getRight();
       setRightDetails(response.rights);
