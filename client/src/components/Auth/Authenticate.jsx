@@ -10,7 +10,7 @@ export default function Authenticate() {
     if (parseUser?.role === "ADMIN") {
       navigate("/admin");
     } else if (parseUser?.role === "USER") {
-      navigate("/");
+      navigate("/home");
     }
   }, [parseUser, navigate]);
   return <>{!user ? <Outlet /> : null}</>;
