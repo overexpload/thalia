@@ -10,8 +10,6 @@ export const createRight = async (rightDetails) => {
 }
 export const editRight = async (rightDetails, rightId) => {
     try {
-        console.log("details", rightDetails)
-        console.log("right id", rightId)
         const response = await thaliaAPI.put(`/admin/rights/${rightId}`, rightDetails, { withCredentials: true });
         return response.data;
     } catch (error) {

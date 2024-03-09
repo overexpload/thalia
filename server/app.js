@@ -7,7 +7,7 @@ const morgan = require('morgan')
 const cookieParser = require('cookie-parser');
 const { notFound, errorHandler } = require('./middlewares/errorMiddlewares')
 
-const userRoute = require('./routes/userRoute.js')
+const userRoute = require('./routes/indexRoute.js')
 const adminRoute = require('./routes/adminRoute.js')
 const ORIGIN = process.env.NODE_ENV === 'development' ? "http://localhost:4000" : 'https://thalia.vercel.app'
 const corsConfig = {

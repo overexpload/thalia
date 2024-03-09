@@ -1,13 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckReport from "../../../components/CheckReport/CheckReport";
+import { getUsers } from "../../../Services/userService";
+import { blockUser } from "../../../Services/userService";
+import { toast } from "react-toastify";
 
 function Managment() {
   const [openModal, setOpenModal] = useState(false);
   const [reportObject, setReportObject] = useState();
+
+  const [users, setUsers] = useState([]);
+
   const handleModal = () => {
-    console.log("Handle Modal Called");
     setOpenModal(true);
   };
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await getUsers();
+      if (response.success === true) {
+        setUsers(response.users);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  const handleBlock = async (userId) => {
+    const response = await blockUser(userId);
+    if (response.success === true) {
+      toast(response.message);
+    }
+  };
+
   return (
     <>
       <CheckReport
@@ -19,7 +41,6 @@ function Managment() {
         <div className="col-span-9">
           <div className="text-text">
             <h1 className="text-2xl py-12">User Managment</h1>
-
             <div>
               <table className="w-full text-sm text-left rtl:text-right rounded">
                 <thead className="text-xs bg-secondary rounded">
@@ -41,6 +62,7 @@ function Managment() {
                     </th>
                   </tr>
                 </thead>
+
                 <tbody>
                   <tr className="border-b">
                     <th scope="row" className="px-6 py-4 font-medium">
@@ -57,29 +79,10 @@ function Managment() {
                       </button>
                     </td>
                     <td className="px-6 py-4">
-                      <button className="border py-1 px-6 rounded hover:bg-red-700">
-                        Block
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <tr className="border-b">
-                    <th scope="row" className="px-6 py-4 font-medium">
-                      Amarnath as
-                    </th>
-                    <td className="px-6 py-4">Silver</td>
-                    <td className="px-6 py-4">Laptop</td>
-                    <td className="px-6 py-4">
                       <button
-                        className="border border-gray-600 bg-gray-700 py-1 px-6 rounded"
-                        onClick={handleModal}
+                        className="border py-1 px-6 rounded hover:bg-red-700"
+                        onClick={() => handleBlock(user?._id)}
                       >
-                        View
-                      </button>
-                    </td>
-                    <td className="px-6 py-4">
-                      <button className="border py-1 px-6 rounded hover:bg-red-700">
                         Block
                       </button>
                     </td>

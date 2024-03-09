@@ -22,7 +22,7 @@ export default function Navbar() {
       title: "Are you sure!",
       showCancelButton: true,
       confirmButtonText: "Logout",
-      confirmButtonColor:"#951947",
+      confirmButtonColor: "#951947",
     }).then((result) => {
       if (result.isConfirmed) {
         setIsLogout(true);
@@ -32,7 +32,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="flex items-center justify-between fixed z-40 top-0 w-full px-3 md:px-10 py-1 bg-gradient-to-r from-[#2d1525] to-background">
+      <div className="flex items-center justify-between sticky z-40 top-0 w-full px-3 md:px-10 py-1 bg-gradient-to-r from-[#2d1525] to-background">
         <Link to={"/"}>
           <img src={Logo} className="w-24" alt="" />
         </Link>
