@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddRight from "../../../components/AddRight/AddRight";
 import EditRight from "../../../components/EditRight/EditRight";
+import { getRight } from "../../../Services/rightServices";
+import { getDelete } from "../../../Services/rightServices";
 
 function Rights() {
   const [openModal, setOpenModal] = useState(false);
   const [rightDetails, setRightDetails] = useState();
   const handleModal = () => {
     setOpenModal(true);
+  };
+  useEffect(() => {
+    const getRights = async () => {
+      const response = await getRight();
+      console.log("This is the response", response);
+    };
+  }, []);
+  const handleDelete = async (rightId: string) => {
+    const response = await getDelete(rightId);
   };
   return (
     <>
@@ -68,7 +79,10 @@ function Rights() {
                     >
                       Edit
                     </button>
-                    <button className="border py-1 px-6 rounded ml-2 hover:bg-red-700">
+                    <button
+                      className="border py-1 px-6 rounded ml-2 hover:bg-red-700"
+                      onClick={() => handleDelete("rightId")}
+                    >
                       Delete
                     </button>
                   </td>
