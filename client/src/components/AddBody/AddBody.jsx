@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Modal } from "flowbite-react";
+import { addTopic } from "../../Services/bodyServices";
+import { toast } from "react-toastify";
 
+// eslint-disable-next-line react/prop-types
 function AddBody({ openModal, setOpenModal }) {
   const [formData, setFormData] = useState({
-    body_name: "",
-    body_desc: "",
+    name: "",
+    content: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -12,6 +15,18 @@ function AddBody({ openModal, setOpenModal }) {
       ...formData,
       [name]: value,
     });
+  };
+  const handleAdd = () => {
+    const addNew = async () => {
+      const response = await addTopic(formData);
+      if (response.success === true) {
+        formData.name = "";
+        formData.content = "";
+        setOpenModal(false);
+        toast.success(response.message);
+      }
+    };
+    addNew();
   };
   return (
     <>
@@ -26,9 +41,9 @@ function AddBody({ openModal, setOpenModal }) {
               <input
                 type="text"
                 className="w-full rounded-md bg-gray-700 text-text"
-                value={formData.body_name}
+                value={formData.name}
                 onChange={handleChange}
-                name="body_name"
+                name="name"
               />
             </label>
           </div>
@@ -36,8 +51,8 @@ function AddBody({ openModal, setOpenModal }) {
             <label htmlFor="">
               <h1 className="text-text py-2">Provide the Topic Description</h1>
               <textarea
-                name="body_desc"
-                value={formData.body_desc}
+                name="content"
+                value={formData.content}
                 onChange={handleChange}
                 id=""
                 rows={8}
@@ -45,7 +60,10 @@ function AddBody({ openModal, setOpenModal }) {
               ></textarea>
             </label>
           </div>
-          <button className="text-primary border-2 px-2 py-2 rounded-md float-end">
+          <button
+            className="text-primary border-2 px-2 py-2 rounded-md float-end"
+            onClick={handleAdd}
+          >
             Add Topic
           </button>
         </Modal.Body>
