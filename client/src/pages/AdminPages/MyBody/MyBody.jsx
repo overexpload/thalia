@@ -1,23 +1,13 @@
-import React, { useEffect, useState } from "react";
-import AddRight from "../../../components/AddRight/AddRight";
+import { useState } from "react";
 import EditRight from "../../../components/EditRight/EditRight";
-import { getRight } from "../../../Services/rightServices";
-import { getDelete } from "../../../Services/rightServices";
+import AddBody from "../../../components/AddBody/AddBody";
 
-function Rights() {
+function MyBody() {
   const [openModal, setOpenModal] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [rightDetails, setRightDetails] = useState();
   const handleModal = () => {
     setOpenModal(true);
-  };
-  useEffect(() => {
-    const getRights = async () => {
-      const response = await getRight();
-      console.log("This is the response", response);
-    };
-  }, []);
-  const handleDelete = async (rightId: string) => {
-    const response = await getDelete(rightId);
   };
   return (
     <>
@@ -26,13 +16,13 @@ function Rights() {
         openModal={openModal}
         rightDetails={rightDetails}
       />
-      <AddRight setOpenModal={setOpenModal} openModal={openModal} />
+      <AddBody setOpenModal={setOpenModal} openModal={openModal} />
       <div className=" h-screen bg-background">
         <div className="col-span-9">
           {/* Text Components  */}
           <div className="text-text flex justify-between">
             <div>
-              <h1 className="text-2xl py-12">Rights Management</h1>
+              <h1 className="text-2xl py-12">Body Topics</h1>
             </div>
             <div className="px-8">
               <button
@@ -55,7 +45,7 @@ function Rights() {
                     Name
                   </th>
                   <th scope="col" className="px-6 py-3 text-primary">
-                    Date
+                    Created At
                   </th>
                   <th
                     scope="col"
@@ -70,7 +60,7 @@ function Rights() {
                   <th scope="row" className="px-6 py-4 font-medium">
                     1
                   </th>
-                  <td className="px-6 py-4">Women Council Act 304</td>
+                  <td className="px-6 py-4">Dealing with Period Cramps</td>
                   <td className="px-6 py-4">18-03-2003</td>
                   <td className="px-6 py-4 flex justify-center">
                     <button
@@ -79,10 +69,7 @@ function Rights() {
                     >
                       Edit
                     </button>
-                    <button
-                      className="border py-1 px-6 rounded ml-2 hover:bg-red-700"
-                      onClick={() => handleDelete("rightId")}
-                    >
+                    <button className="border py-1 px-6 rounded ml-2 hover:bg-red-700">
                       Delete
                     </button>
                   </td>
@@ -95,4 +82,5 @@ function Rights() {
     </>
   );
 }
-export default Rights;
+
+export default MyBody;
