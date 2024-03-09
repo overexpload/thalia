@@ -32,7 +32,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="flex items-center justify-between sticky z-40 top-0 w-full px-10 py-1 bg-gradient-to-r from-[#2d1525] to-background">
+      <div className="flex items-center justify-between fixed z-40 top-0 w-full px-10 py-1 bg-gradient-to-r from-[#2d1525] to-background">
         <Link to={"/"}>
           <img src={Logo} className="w-24" alt="" />
         </Link>
