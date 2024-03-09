@@ -1,4 +1,5 @@
-# Client [[Thalia](https://github.com/izam-mohammed/thalia)]
+# Client [[Thalia](https://github.com/Auto-Playground/thalia)]
+@hosted at [thalia.vercel.app](https://thalia.vercel.app/)
 
 Welcome to the Thalia frontend repository! This folder contains all the code for the frontend of our website, including both the user interface and the admin panel. Thalia is built with React.js and utilizes various libraries and tools for enhanced development.
 
@@ -16,7 +17,7 @@ Welcome to the Thalia frontend repository! This folder contains all the code for
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/izam-mohammed/thalia.git
+git clone https://github.com/Auto-Playground/thalia
 cd client
 ```
 
