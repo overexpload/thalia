@@ -9,7 +9,7 @@ const { notFound, errorHandler } = require('./middlewares/errorMiddlewares')
 
 const userRoute = require('./routes/userRoute.js')
 const adminRoute = require('./routes/adminRoute.js')
-const ORIGIN = process.env.NODE_ENV === 'development' ? "http://localhost:4000" : ''
+const ORIGIN = process.env.NODE_ENV === 'development' ? "http://localhost:4000" : 'https://thalia.vercel.app'
 const corsConfig = {
     origin: ORIGIN,
     credentials: true,
