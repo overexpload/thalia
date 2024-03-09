@@ -3,21 +3,16 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 
 export const verifyEmail = async (email) => {
     try {
-        const { data } = await thaliaAPI.post("/verify_email", { email }, { withCredentials: true });
+        const { data } = await thaliaAPI.post("/verify-mail", { email }, { withCredentials: true });
         return data;
     } catch (err) {
-        console.log(err);
-        const payload = {
-            status: err.respones.data.status,
-            message: err.respones.data.message
-        }
-        return payload;
+        return err;
     }
 }
 
-export const verifyOtp = async (formData) => {
+export const verifyOtp = async (email, otp) => {
     try {
-        const { data } = await thaliaAPI.post("/verify_otp", formData, { withCredentials: true });
+        const { data } = await thaliaAPI.post("/verify-otp", { email, otp });
         return data;
     } catch (err) {
         console.log(err);
@@ -33,12 +28,12 @@ export const signUp = createAsyncThunk(
     "auth/signup",
     async (userData, thunkAPI) => {
         try {
-            const { data } = await thaliaAPI.post('/signup', userData, { withCredentials: true });
+            const { data } = await thaliaAPI.post('/signup', userData);
             return data;
         } catch (err) {
             const payload = {
-                status: err.respones.data.status,
-                message: err.respones.data.message
+                status: err.response.data.status,
+                message: err.response.data.message
             }
             return thunkAPI.rejectWithValue(payload)
         }
@@ -46,15 +41,15 @@ export const signUp = createAsyncThunk(
 )
 
 export const login = createAsyncThunk(
-    "auth/login",
+    "auth/signin",
     async (userData, thunkAPI) => {
         try {
-            const { data } = await thaliaAPI.post("/login", userData, { withCredentials: true });
+            const { data } = await thaliaAPI.post("/signin", userData);
             return data;
         } catch (err) {
             const payload = {
-                status: err.respones.data.status,
-                message: err.respones.data.message
+                status: err.response.data.status,
+                message: err.response.data.message
             }
             return thunkAPI.rejectWithValue(payload)
         }
