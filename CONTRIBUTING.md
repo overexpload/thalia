@@ -6,11 +6,11 @@ Thank you for considering contributing to Thalia! By participating in this proje
 
 ### Reporting Bugs
 
-If you encounter a bug or unexpected behavior, please ensure it hasn't already been reported by checking the [existing issues](https://github.com/izam-mohammed/thalia/issues). If not, create a new issue and include as much detail as possible, including steps to reproduce the bug.
+If you encounter a bug or unexpected behavior, please ensure it hasn't already been reported by checking the [existing issues](https://github.com/Auto-Playground/thalia/issues). If not, create a new issue and include as much detail as possible, including steps to reproduce the bug.
 
 ### Suggesting Enhancements
 
-If you have ideas for new features or improvements, feel free to submit them as [GitHub issues](https://github.com/izam-mohammed/thalia/issues) labeled with the "enhancement" tag. Provide a clear description of the enhancement and why you believe it would be valuable.
+If you have ideas for new features or improvements, feel free to submit them as [GitHub issues](https://github.com/Auto-Playground/thalia/issues) labeled with the "enhancement" tag. Provide a clear description of the enhancement and why you believe it would be valuable.
 
 ### Pull Requests
 

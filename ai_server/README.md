@@ -1,4 +1,5 @@
-# AI Server 🤖 [[Thalia](https://github.com/izam-mohammed/thalia)]
+# AI Server 🤖 [[Thalia](https://github.com/Auto-Playground/thalia)]
+@hosted ai [thalia-ai-server.vercel.app](https://thalia-ai-server.vercel.app/)
 
 Welcome to the Thalia AI Server repository! This folder contains all the code for the Django server that provides chat functionality for the Thalia web app. The server is built with Django Rest Framework and integrates LangChain and OpenAI LLM for chat capabilities.
 
@@ -15,7 +16,7 @@ Welcome to the Thalia AI Server repository! This folder contains all the code fo
 1. Clone the repository:
 
 ```bash
-git clone <repository_url>
+git clone https://github.com/Auto-Playground/thalia
 cd ai_server
 ```
 
@@ -29,8 +30,8 @@ pip install -r requirements.txt
 
 ```bash
 # Create a .env file in the ai_server directory and add the following:
-SECRET_KEY=<secret_key>
-DEBUG=<True_or_False>
+HF_TOKEN=<your_hf_token>
+OPENAI_API_KEY=<openai_api_key>
 ```
 
 4. Run database migrations:
