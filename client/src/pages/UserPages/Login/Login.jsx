@@ -85,7 +85,7 @@ export default function Login() {
 
   return (
     <>
-      <div className="max-h-screen pt-28 md:pt-14 pb-56 md:pb-40 bg-gradient-to-r from-[#2d1525] to-background flex flex-col justify-center ">
+      <div className="h-screen bg-gradient-to-r from-[#2d1525] to-background flex flex-col justify-center">
         <div className="relative py-3 sm:max-w-xl sm:mx-auto">
           <div className="absolute inset-0 bg-gradient-to-r from-secondary to-primary shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
           <div className="relative md:w-[30rem] bg-text shadow-lg rounded-3xl p-10">
