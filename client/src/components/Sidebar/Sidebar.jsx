@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import { TbFileReport } from "react-icons/tb";
+import { IoBody } from "react-icons/io5";
 function Sidebar() {
   return (
     <>
@@ -26,6 +27,12 @@ function Sidebar() {
             <TbFileReport className="text-primary" />
             <Link className="ml-4 font-bold text-gray-500" to={"/admin/rights"}>
               Rights Management
+            </Link>
+          </button>
+          <button className="flex items-center px-4 py-2 rounded-md w-full mt-8">
+            <IoBody className="text-primary" />
+            <Link className="ml-4 font-bold text-gray-500" to={"/admin/body"}>
+              My Body
             </Link>
           </button>
         </div>
