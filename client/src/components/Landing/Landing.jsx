@@ -42,7 +42,7 @@ export default function Landing() {
             </div>
           </div>
           <img
-            className="absolute top-0 opacity-15"
+            className="absolute top-0 opacity-15 w-full"
             // src="https://wallpapercave.com/wp/wp10299388.jpg"
             src="https://media.newyorker.com/photos/64177e0c6534701061ec3f19/master/pass/Bing_Ani_Final_B_2A.gif"
             alt=""
