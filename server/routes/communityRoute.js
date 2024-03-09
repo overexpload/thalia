@@ -8,4 +8,8 @@ router.post('/', isLogedIn, createCommunity)
 router.post('/join', isLogedIn, joinCommunity)
 router.post('/accept-join', isLogedIn, acceptJoin)
 router.get('/my-communities', isLogedIn, getmyCommunities)
+
+
+//discussion
+
 module.exports = router;
