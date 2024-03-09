@@ -1,26 +1,37 @@
 import { Modal } from "flowbite-react";
 import { useEffect, useState } from "react";
+import { editRight } from "../../Services/rightServices";
+import { toast } from "react-toastify";
 
 // eslint-disable-next-line react/prop-types
 function EditRight({ setOpenModal, openModal, rightDetails }) {
   const [formData, setFormData] = useState({
-    right_name: "",
-    right_desc: "",
+    name: "",
+    content: "",
   });
   useEffect(() => {
     if (rightDetails) {
-      // eslint-disable-next-line react/prop-types
-      formData.right_name = rightDetails?.name;
-      // eslint-disable-next-line react/prop-types
-      formData.right_desc = rightDetails?.description;
+      setFormData({
+        name: rightDetails?.name || "",
+        content: rightDetails?.content || "",
+      });
     }
-  }, [formData, rightDetails]);
+  }, [rightDetails]);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
-    });
+    }));
+  };
+  const handleEdit = async () => {
+    const response = await editRight(formData, rightDetails?._id);
+    if (response.success === true) {
+      toast.success(response.message);
+      formData.name = "";
+      formData.content = "";
+      setOpenModal(false);
+    }
   };
   return (
     <>
@@ -35,9 +46,9 @@ function EditRight({ setOpenModal, openModal, rightDetails }) {
               <input
                 type="text"
                 className="w-full rounded-md bg-gray-700 text-text"
-                value={formData?.right_name}
+                value={formData?.name}
                 onChange={handleChange}
-                name="right_name"
+                name="name"
               />
             </label>
           </div>
@@ -45,8 +56,8 @@ function EditRight({ setOpenModal, openModal, rightDetails }) {
             <label htmlFor="">
               <h1 className="text-text py-2">Provide the Right Description</h1>
               <textarea
-                name="right_desc"
-                value={formData?.right_desc}
+                name="content"
+                value={formData?.content}
                 onChange={handleChange}
                 id=""
                 rows={8}
@@ -54,7 +65,10 @@ function EditRight({ setOpenModal, openModal, rightDetails }) {
               ></textarea>
             </label>
           </div>
-          <button className="text-primary border-2 px-2 py-2 rounded-md float-end">
+          <button
+            className="text-primary border-2 px-2 py-2 rounded-md float-end"
+            onClick={handleEdit}
+          >
             Update
           </button>
         </Modal.Body>
