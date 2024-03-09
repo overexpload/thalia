@@ -638,30 +638,32 @@ const getReplyCommemts = async (req, res, next) => {
 }
 
 
-// /**
-//  * @desc rquest for add commment on a discussions 
-//  * @route DELETE /api/community/discussions/comment
-//  * @access private
-//  */
-// export const deleteComment: RequestHandler = asyncHandler(
-//     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-//         const { id } = req.params;
-//         if (!id) {
-//             res.status(400)
-//             return next(new Error("Invalid comment"));
-//         }
-//         const deletedComment = await Comment.findOneAndDelete({ _id: id })
-//         if (deletedComment) {
-//             res.status(200).json({
-//                 status: 'ok',
-//                 message: 'comment deleted',
-//                 deletedComment
-//             })
-//         } else {
-//             next(new Error('Internal server error'))
-//         }
-//     }
-// )
+/**
+ * @desc rquest for add commment on a discussions 
+ * @route DELETE /api/community/discussions/comment
+ * @access private
+ */
+const deleteComment = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        if (!id) {
+            res.status(400)
+            throw new Error("Invalid comment");
+        }
+        const deletedComment = await Comment.findOneAndDelete({ _id: id })
+        if (deletedComment) {
+            res.status(200).json({
+                status: 'ok',
+                message: 'comment deleted',
+                deletedComment
+            })
+        } else {
+            throw new Error('internal server error')
+        }
+    } catch (error) {
+        next(error.message)
+    }
+}
 
 
 // /**
@@ -723,5 +725,6 @@ module.exports = {
     dislikeDiscussion,
     addComment,
     getComments,
-    getReplyCommemts
+    getReplyCommemts,
+    deleteComment
 }

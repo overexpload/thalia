@@ -2,7 +2,7 @@ const express = require('express');
 const { isLogedIn } = require('../middlewares/authMiddleware');
 const router = express.Router();
 const { createCommunity, getSuggestions, joinCommunity, acceptJoin, getmyCommunities } = require('../controller/community')
-const { createDiscussion, getDiscussions, getRecentDiscussion, deleteDiscussion, likeDiscussion, dislikeDiscussion, addComment, getComments, getReplyCommemts } = require('../controller/discussion')
+const { createDiscussion, getDiscussions, getRecentDiscussion, deleteDiscussion, likeDiscussion, dislikeDiscussion, addComment, getComments, getReplyCommemts,deleteComment } = require('../controller/discussion')
 
 router.get('/get-suggestions', isLogedIn, getSuggestions)
 router.post('/', isLogedIn, createCommunity)
@@ -22,5 +22,6 @@ router.put('/discussions/dislike/:id', isLogedIn, dislikeDiscussion)
 router.post('/discussions/comment', isLogedIn, addComment)
 router.get('/discussions/comment/:id', isLogedIn, getComments)
 router.get('/discussions/comment/reply/:id', isLogedIn, getReplyCommemts)
+router.delete('/discussions/comment/:id', isLogedIn, deleteComment)
 
 module.exports = router;
