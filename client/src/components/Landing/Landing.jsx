@@ -13,7 +13,7 @@ export default function Landing() {
               className="hero-content wow fadeInUp mx-auto max-w-[780px] text-center"
               data-wow-delay=".2s"
             >
-              <h1 className="mb-6 font-extrabold text-transparent text-8xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 sm:text-4xl sm:leading-snug lg:text-5xl lg:leading-[1.2]">
+              <h1 className="mb-6 font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 sm:leading-snug lg:text-5xl lg:leading-[1.2]">
                 A Platform where community meets empowerment.
               </h1>
               <p className="mx-auto mb-9 max-w-[600px] text-base font-medium text-text sm:text-lg sm:leading-[1.44]">
@@ -32,7 +32,6 @@ export default function Landing() {
                 <li>
                   <Link
                     to={"/signup"}
-                    target="_blank"
                     className="flex items-center gap-4 rounded-md bg-white/[0.12] px-6 py-[14px] text-base font-medium text-white transition duration-300 ease-in-out hover:bg-primary hover:text-background"
                   >
                     Siginup
