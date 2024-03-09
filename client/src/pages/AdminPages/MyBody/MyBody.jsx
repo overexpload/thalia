@@ -1,20 +1,59 @@
-import { useState } from "react";
-import EditRight from "../../../components/EditRight/EditRight";
+import { useEffect, useState } from "react";
+import EditBody from "../../../components/EditBody/EditBody";
 import AddBody from "../../../components/AddBody/AddBody";
+import { getTopics } from "../../../Services/bodyServices";
+import { deleteBody } from "../../../Services/bodyServices";
+import timeFormat from "../../../utils/timeFormat";
+import { toast } from "react-toastify";
 
 function MyBody() {
   const [openModal, setOpenModal] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [rightDetails, setRightDetails] = useState();
+  const [bodyDeatails, setBodyDetails] = useState([]);
+
+  const [editBody, setEditBody] = useState();
+  const [editModal, setEditModal] = useState(false);
+
   const handleModal = () => {
     setOpenModal(true);
   };
+  const handleEditModal = (bodyId) => {
+    setEditModal(true);
+    const bodyToEdit = bodyDeatails.find((body) => {
+      return body?._id === bodyId;
+    });
+    setEditBody(bodyToEdit);
+  };
+  useEffect(() => {
+    const getData = async () => {
+      const response = await getTopics();
+      if (response.success === true) {
+        setBodyDetails(response.contents);
+      }
+    };
+    getData();
+  }, [
+    openModal,
+    setOpenModal,
+    setBodyDetails,
+    setEditModal,
+    editModal,
+    setEditBody,
+  ]);
+  const handleDelete = async (bodyId) => {
+    const response = await deleteBody(bodyId);
+    if (response.success === true) {
+      setBodyDetails((prevDetails) =>
+        prevDetails.filter((body) => body?._id !== bodyId)
+      );
+      toast.success(response.message);
+    }
+  };
   return (
     <>
-      <EditRight
-        setOpenModal={setOpenModal}
-        openModal={openModal}
-        rightDetails={rightDetails}
+      <EditBody
+        setOpenModal={setEditModal}
+        openModal={editModal}
+        bodyDetails={editBody ? editBody : null}
       />
       <AddBody setOpenModal={setOpenModal} openModal={openModal} />
       <div className=" h-screen bg-background">
@@ -55,26 +94,37 @@ function MyBody() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="text-text">
-                <tr className="border-b border-gray-500">
-                  <th scope="row" className="px-6 py-4 font-medium">
-                    1
-                  </th>
-                  <td className="px-6 py-4">Dealing with Period Cramps</td>
-                  <td className="px-6 py-4">18-03-2003</td>
-                  <td className="px-6 py-4 flex justify-center">
-                    <button
-                      className="border py-1 px-6 rounded hover:bg-green-500"
-                      onClick={handleModal}
-                    >
-                      Edit
-                    </button>
-                    <button className="border py-1 px-6 rounded ml-2 hover:bg-red-700">
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
+              {bodyDeatails.map((data, index) => {
+                return (
+                  <>
+                    <tbody className="text-text" key={index}>
+                      <tr className="border-b border-gray-500">
+                        <th scope="row" className="px-6 py-4 font-medium">
+                          {index + 1}
+                        </th>
+                        <td className="px-6 py-4">{data?.name}</td>
+                        <td className="px-6 py-4">
+                          {timeFormat(data.createdAt)}
+                        </td>
+                        <td className="px-6 py-4 flex justify-center">
+                          <button
+                            className="border py-1 px-6 rounded hover:bg-green-500"
+                            onClick={() => handleEditModal(data?._id)}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="border py-1 px-6 rounded ml-2 hover:bg-red-700"
+                            onClick={() => handleDelete(data?._id)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </>
+                );
+              })}
             </table>
           </div>
         </div>
