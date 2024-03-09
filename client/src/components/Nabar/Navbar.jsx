@@ -22,6 +22,7 @@ export default function Navbar() {
       title: "Are you sure!",
       showCancelButton: true,
       confirmButtonText: "Logout",
+      confirmButtonColor:"#951947",
     }).then((result) => {
       if (result.isConfirmed) {
         setIsLogout(true);
