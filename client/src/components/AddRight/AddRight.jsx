@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Modal } from "flowbite-react";
+import { createRight } from "../../Services/rightServices";
 
 // eslint-disable-next-line react/prop-types
 function AddRight({ setOpenModal, openModal }) {
@@ -14,6 +15,20 @@ function AddRight({ setOpenModal, openModal }) {
       [name]: value,
     });
   };
+
+  const handleCreate = async () => {
+    if (!formData.right_name || !formData.right_desc) {
+      console.log("Data fields Missing");
+      return;
+    }
+    try {
+      const response = await createRight(formData);
+      console.log("response in the page", response);
+    } catch (error) {
+      console.log("Error occurred", error);
+    }
+  };
+
   return (
     <>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
@@ -59,7 +74,10 @@ function AddRight({ setOpenModal, openModal }) {
               />
             </div> */}
           </div>
-          <button className="text-primary border-2 px-2 py-2 rounded-md float-end">
+          <button
+            className="text-primary border-2 px-2 py-2 rounded-md float-end"
+            onClick={handleCreate}
+          >
             Add Right
           </button>
         </Modal.Body>
