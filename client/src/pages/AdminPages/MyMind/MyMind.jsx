@@ -1,65 +1,70 @@
-import { useEffect, useState } from "react";
-import AddRight from "../../../components/AddRight/AddRight";
-import EditRight from "../../../components/EditRight/EditRight";
-import { getRight } from "../../../Services/rightServices";
-import { getDelete } from "../../../Services/rightServices";
-import timeFormat from "../../../utils/timeFormat";
+import { useEffect } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
+import EditMind from "../../../components/EditMind/EditMind";
+import AddMind from "../../../components/AddMind/AddMind";
+import { getDelete } from "../../../Services/mindServices";
+import { getMind } from "../../../Services/mindServices";
+import timeFormat from "../../../utils/timeFormat";
 
-function Rights() {
+function MyMind() {
   const [openModal, setOpenModal] = useState(false);
-  const [rightDetails, setRightDetails] = useState([]);
+  const [mindDetails, setmindDetails] = useState([]);
 
-  const [editRight, setEditRight] = useState();
-  const [editModal, setEditModal] = useState(false);
+  const [editMind, setEditMind] = useState();
+  const [mindModal, setMindModal] = useState(false);
 
   const handleModal = () => {
     setOpenModal(true);
   };
-  const handleEditModal = (rightId) => {
-    setEditModal(true);
-    const rightToEdit = rightDetails.find((right) => {
-      return right?._id === rightId;
+  const handleEditModal = (mindId) => {
+    setMindModal(true);
+    const mindToEdit = mindDetails.find((mind) => {
+      return mind?._id === mindId;
     });
-    setEditRight(rightToEdit);
+    console.log(mindToEdit);
+    setEditMind(mindToEdit);
   };
   useEffect(() => {
-    const getRights = async () => {
-      const response = await getRight();
-      setRightDetails(response.rights);
+    const getMindData = async () => {
+      const response = await getMind();
+      if (response.success === true) {
+        console.log(response.contents);
+        setmindDetails(response.contents);
+      }
     };
-    getRights();
+    getMindData();
   }, [
     setOpenModal,
-    setEditModal,
+    setMindModal,
     openModal,
-    editModal,
-    setRightDetails,
-    setEditRight,
+    mindModal,
+    setmindDetails,
+    setEditMind,
   ]);
-  const handleDelete = async (rightId) => {
-    const response = await getDelete(rightId);
+  const handleDelete = async (mindId) => {
+    const response = await getDelete(mindId);
     if (response.success === true) {
-      setRightDetails((prevDetails) =>
-        prevDetails.filter((right) => right._id !== rightId)
+      setmindDetails((prevDetails) =>
+        prevDetails.filter((mind) => mind._id !== mindId)
       );
       toast.success(response.message);
     }
   };
   return (
     <>
-      <EditRight
-        setOpenModal={setEditModal}
-        openModal={editModal}
-        rightDetails={editRight ? editRight : null}
+      <EditMind
+        setOpenModal={setMindModal}
+        openModal={mindModal}
+        mindDetails={editMind ? editMind : null}
       />
-      <AddRight setOpenModal={setOpenModal} openModal={openModal} />
+      <AddMind setOpenModal={setOpenModal} openModal={openModal} />
       <div className="h-full bg-background">
         <div className="col-span-9">
           {/* Text Components  */}
           <div className="text-text flex justify-between">
             <div>
-              <h1 className="text-2xl py-12">My Rights</h1>
+              <h1 className="text-2xl py-12">Mind Management</h1>
             </div>
             <div className="px-8">
               <button
@@ -93,28 +98,28 @@ function Rights() {
                     </th>
                   </tr>
                 </thead>
-                {rightDetails.map((right, index) => {
+                {mindDetails.map((mind, index) => {
                   return (
                     <>
                       <tbody className="text-text" key={index}>
-                        <tr className="border-b border-gray-600">
+                        <tr className="border-b border-gray-500">
                           <th scope="row" className="px-6 py-4 font-medium">
                             {index + 1}
                           </th>
-                          <td className="px-6 py-4">{right?.name}</td>
+                          <td className="px-6 py-4">{mind?.name}</td>
                           <td className="px-6 py-4">
-                            {timeFormat(right?.createdAt)}
+                            {timeFormat(mind?.createdAt)}
                           </td>
                           <td className="px-6 py-4 flex justify-center">
                             <button
                               className="border py-1 px-6 rounded hover:bg-green-500"
-                              onClick={() => handleEditModal(right?._id)}
+                              onClick={() => handleEditModal(mind?._id)}
                             >
                               Edit
                             </button>
                             <button
                               className="border py-1 px-6 rounded ml-2 hover:bg-red-700"
-                              onClick={() => handleDelete(right?._id)}
+                              onClick={() => handleDelete(mind?._id)}
                             >
                               Delete
                             </button>
@@ -132,4 +137,5 @@ function Rights() {
     </>
   );
 }
-export default Rights;
+
+export default MyMind;
