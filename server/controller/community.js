@@ -1,5 +1,6 @@
 const Members = require('../models/membersModel')
-const Community = require('../models/communityModel')
+const Community = require('../models/communityModel');
+const mongoose = require('mongoose');
 
 /**
  * @desc request for create new community
@@ -187,10 +188,61 @@ const getmyCommunities = async (req, res, next) => {
     }
 }
 
+/**
+ * @desc request for fetching community details
+ * @route GET /api/community/get-details/:id
+ * @access private
+ */
+
+const getDetails = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        console.log(id)
+        if (!id) {
+            throw new Error('communit not found')
+        }
+        const community = await Community.aggregate([
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(id),
+                    is_delete: false
+                }
+            }, {
+                $lookup: {
+                    from: 'members',
+                    localField: '_id',
+                    foreignField: 'community_id',
+                    as: 'members',
+                    pipeline: [
+                        {
+                            $match: {
+                                status: { $ne: 'removed' }
+                            }
+                        }
+                    ]
+                }
+            }
+
+        ])
+        if (community) {
+            res.status(200).json({
+                success: true,
+                message: 'fetched community details',
+                community: community[0]
+            })
+        } else {
+            throw new Error("Internal server error")
+        }
+    } catch (error) {
+        next(error.message)
+    }
+}
+
 module.exports = {
     createCommunity,
     getSuggestions,
     joinCommunity,
     acceptJoin,
-    getmyCommunities
+    getmyCommunities,
+    getDetails
 }

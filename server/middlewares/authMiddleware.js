@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const isLogedIn = async (req, res, next) => {
     try {
         const token = req.cookies.token;
-        console.log(req.cookies)
         if (token) {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             const userId = new mongoose.Types.ObjectId(decoded.id)

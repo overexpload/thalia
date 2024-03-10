@@ -108,7 +108,7 @@ export default function Community() {
                          </button>
                     </div>
                </section>
-               <section className="page-body bg-blue-700">
+               <section className="page-body">
                     {currentTab === "RECENT_DISCUSSIONS" ? (
                          <RecentDiscussions />
                     ) : //  <RecentDiscussions />

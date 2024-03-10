@@ -15,14 +15,13 @@ export default function NewCommunity({ showModal, setShowModal }) {
           setFormData({ ...formData, [name]: value });
      }
 
-     function handleSubmit() {
+     async function handleSubmit() {
           if (formData.community_name && formData.topic) {
                setError("");
+               // const 
           } else if (!formData.community_name) {
                setError("Please select a name");
-          } else if (!formData.topic) {
-               setError("Please select a topic");
-          }
+          } 
      }
      return (
           <>
