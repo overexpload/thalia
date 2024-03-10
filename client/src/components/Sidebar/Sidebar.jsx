@@ -3,6 +3,7 @@ import { MdDashboard } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import { TbFileReport } from "react-icons/tb";
 import { IoBody } from "react-icons/io5";
+import { FaBrain } from "react-icons/fa";
 function Sidebar() {
   return (
     <>
@@ -33,6 +34,12 @@ function Sidebar() {
             <IoBody className="text-primary" />
             <Link className="ml-4 font-bold text-gray-500" to={"/admin/body"}>
               My Body
+            </Link>
+          </button>
+          <button className="flex items-center px-4 py-2 rounded-md w-full mt-8 hover:bg-gray-800">
+            <FaBrain className="text-primary" />
+            <Link className="ml-4 font-bold text-gray-500" to={"/admin/mind"}>
+              My Mind
             </Link>
           </button>
         </div>
