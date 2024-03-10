@@ -41,7 +41,7 @@ function EditBody({ setOpenModal, openModal, bodyDetails }) {
         <Modal.Header className="bg-gray-800">
           <h1 className="text-white font-bold">Edit Topic</h1>
         </Modal.Header>
-        <Modal.Body className="ring-1 bg-background rounded-b-md px-2 py-2">
+        <Modal.Body className="ring-1 bg-gray-800 rounded-b-md px-2 py-2">
           <div className="w-full">
             <label htmlFor="">
               <h1 className="text-white py-2">Name of the Topic</h1>
@@ -62,12 +62,12 @@ function EditBody({ setOpenModal, openModal, bodyDetails }) {
                 value={formData?.content}
                 onChange={handleChange}
                 rows={8}
-                className="w-full rounded-md bg-gray-700 text-white"
+                className="w-full rounded-md bg-gray-700 text-white "
               ></textarea>
             </label>
           </div>
           <button
-            className="text-primary border-2 px-5 py-1 hover:bg-primary hover:text-black rounded-md float-end"
+            className="text-white border-0 px-5 py-1 hover:bg-primary bg-gray-500 hover:text-black rounded-md float-end"
             onClick={handleEdit}
           >
             Update

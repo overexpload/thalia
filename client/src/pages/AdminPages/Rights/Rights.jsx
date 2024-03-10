@@ -59,11 +59,11 @@ function Rights() {
           {/* Text Components  */}
           <div className="text-text flex justify-between">
             <div>
-              <h1 className="text-2xl py-12">Rights Management</h1>
+              <h1 className="text-2xl py-12">My Rights</h1>
             </div>
             <div className="px-8">
               <button
-                className="text-xl py-12 text-pretty text-primary underline"
+                className="text-xl py-12 text-pretty text-primary "
                 onClick={handleModal}
               >
                 Create
@@ -97,7 +97,7 @@ function Rights() {
                   return (
                     <>
                       <tbody className="text-text" key={index}>
-                        <tr className="border-b border-gray-500">
+                        <tr className="border-b border-gray-600">
                           <th scope="row" className="px-6 py-4 font-medium">
                             {index + 1}
                           </th>
