@@ -59,21 +59,19 @@ export default function Faq() {
                 </div>
                 <div className="w-full">
                   <h3 className="mb-6 text-xl font-semibold text-dark dark:text-white sm:text-2xl lg:text-xl xl:text-2xl">
-                    But the Thalia development team is fully male, right ?
+                    Is it possible to create account for male users ?
                   </h3>
                   <p className="text-base text-body-color dark:text-dark-6">
-                    At first, we thought the same way. But now, our team has
-                    four developers. We realized that having a female team
-                    member isn't crucial as long as we all listen and have
-                    sisters and female friends. Our development team acts as
-                    translators, bringing women's perspectives into the real
-                    world.
+                    Currently, our website policy doesn't allow male users to
+                    create accounts. If a male user attempts to sign up, they
+                    will be monitored, and our AI bot will likely detect their
+                    actions and block them.
                   </p>
                 </div>
               </div>
             </div>
             <div className="w-full px-4 lg:w-1/2">
-              <div className="mb-12 flex lg:mb-[70px] p-5">
+            <div className="mb-12 flex lg:mb-[70px] p-5">
                 <div className="mr-4 flex h-[50px] w-full max-w-[50px] items-center justify-center rounded-xl bg-primary text-white sm:mr-6 sm:h-[60px] sm:max-w-[60px]">
                   <svg
                     width="32"
@@ -88,13 +86,15 @@ export default function Faq() {
                 </div>
                 <div className="w-full">
                   <h3 className="mb-6 text-xl font-semibold text-dark dark:text-white sm:text-2xl lg:text-xl xl:text-2xl">
-                    Is it possible to create account for male users ?
+                    But the Thalia development team is fully male, right ?
                   </h3>
                   <p className="text-base text-body-color dark:text-dark-6">
-                    Currently, our website policy doesn't allow male users to
-                    create accounts. If a male user attempts to sign up, they
-                    will be monitored, and our AI bot will likely detect their
-                    actions and block them.
+                    At first, we thought the same way. But now, our team has
+                    four developers. We realized that having a female team
+                    member isn't crucial as long as we all listen and have
+                    sisters and female friends. Our development team acts as
+                    translators, bringing women's perspectives into the real
+                    world.
                   </p>
                 </div>
               </div>
