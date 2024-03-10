@@ -20,34 +20,38 @@ function Managment() {
     const fetchUsers = async () => {
       const response = await getUsers();
       if (response.success === true) {
-        console.log(response.userList);
         setUsers(response?.userList);
       }
     };
-    console.log("running")
     fetchUsers();
-  }, [setOpenModal, setUsers, setUserReport]);
+  }, [setOpenModal, setUsers, setUserReport, userReport, openModal]);
 
   const handleBlock = async (userId) => {
     const response = await blockUser(userId);
     if (response?.success === true) {
-      const getUser = users.find((user) => {
-        return user._id === userId
-      }) 
-      if(getUser) {
-        console.log("OO+>",getUser)
-      }
+      const updatedUsers = users.map((user) => {
+        if (user._id === userId) {
+          return { ...user, is_blocked: true };
+        }
+        return user;
+      });
+      setUsers(updatedUsers);
       toast(response?.message);
     }
   };
-
   const handleUnBlock = async (userId) => {
     const response = await unBlockUser(userId);
     if (response?.success === true) {
+      const updatedUsers = users.map((user) => {
+        if (user._id === userId) {
+          return { ...user, is_blocked: false };
+        }
+        return user;
+      });
+      setUsers(updatedUsers);
       toast(response?.message);
     }
   };
-
   return (
     <>
       <CheckReport
