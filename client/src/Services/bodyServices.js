@@ -1,8 +1,8 @@
 import thaliaAPI from "../API/thaliaAPI";
 
-export const getTopics = async () => {
+export const getTopics = async (page) => {
     try {
-        const response = await thaliaAPI.get("/admin/my-body", { withCredentials: true });
+        const response = await thaliaAPI.get(`/admin/my-body?page=${page}`, { withCredentials: true });
         return response.data;
     } catch (error) {
         return error;
