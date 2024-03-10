@@ -217,7 +217,7 @@ export default function Features() {
                 </svg>
               </div>
               <h4 className="mb-3 text-xl font-bold text-white dark:text-white">
-                ty
+                Safety
               </h4>
               <p className="mb-8 text-gray-200 dark:text-white-6 lg:mb-9">
                 Ensure complete safety in chatting and communication. Our
