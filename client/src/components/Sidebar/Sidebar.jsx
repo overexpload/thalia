@@ -9,39 +9,33 @@ function Sidebar() {
     <>
       <div className="w-72 h-screen shadow-lg rounded-lg bg-gray-900 fixed">
         <div className="flex justify-start items-start flex-col mx-3 my-3">
-          <button className="flex items-center px-4 py-2 rounded-md w-full mt-8 hover:bg-gray-800">
-            <MdDashboard className="text-primary" />
-            <Link className="ml-4 font-bold text-gray-500" to={"/admin"}>
+          <Link className="ml-4 font-bold text-gray-500" to={"/admin"}>
+            <button className="flex items-center px-4 py-2 rounded-md w-full mt-8 hover:bg-gray-800">
+              <MdDashboard className="text-primary" />
               Dash Board
-            </Link>
-          </button>
-          <button className="flex items-center px-4 py-2 rounded-md w-full mt-8 hover:bg-gray-800">
-            <FaUsers className="text-primary" />
-            <Link
-              className="ml-4 font-bold text-gray-500"
-              to={"/admin/managment"}
-            >
+            </button>
+          </Link>
+          <Link
+            className="ml-4 font-bold text-gray-500"
+            to={"/admin/managment"}
+          >
+            <button className="flex items-center px-4 py-2 rounded-md w-full mt-8 hover:bg-gray-800">
+              <FaUsers className="text-primary" />
               User Managment
-            </Link>
-          </button>
-          <button className="flex items-center px-4 py-2 rounded-md w-full mt-8 hover:bg-gray-800">
-            <TbFileReport className="text-primary" />
-            <Link className="ml-4 font-bold text-gray-500" to={"/admin/rights"}>
-              My Right
-            </Link>
-          </button>
-          <button className="flex items-center px-4 py-2 rounded-md w-full mt-8 hover:bg-gray-800">
-            <IoBody className="text-primary" />
-            <Link className="ml-4 font-bold text-gray-500" to={"/admin/body"}>
+            </button>
+          </Link>
+          <Link className="ml-4 font-bold text-gray-500" to={"/admin/rights"}>
+            <button className="flex items-center px-4 py-2 rounded-md w-full mt-8 hover:bg-gray-800">
+              <TbFileReport className="text-primary" />
+              Rights Management
+            </button>
+          </Link>
+          <Link className="ml-4 font-bold text-gray-500" to={"/admin/body"}>
+            <button className="flex items-center px-4 py-2 rounded-md w-full mt-8 hover:bg-gray-800">
+              <IoBody className="text-primary" />
               My Body
-            </Link>
-          </button>
-          <button className="flex items-center px-4 py-2 rounded-md w-full mt-8 hover:bg-gray-800">
-            <FaBrain className="text-primary" />
-            <Link className="ml-4 font-bold text-gray-500" to={"/admin/mind"}>
-              My Mind
-            </Link>
-          </button>
+            </button>
+          </Link>
         </div>
       </div>
     </>
