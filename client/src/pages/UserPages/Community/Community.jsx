@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import NewCommunity from "../../../components/community/NewCommunity";
 import RecentDiscussions from "../../../components/community/RecentDiscussions/RecentDiscussions";
 import YourCommunity from "../../../components/community/YourCommunity/YourCommunity";
+import DiscoverCommunity from "../../../components/community/DiscoverCommunity/DiscoverCommunity";
 
 export default function Community() {
      const { tab } = useParams();
@@ -114,6 +115,8 @@ export default function Community() {
                          <RecentDiscussions />
                     ) : currentTab === "YOUR_COMMUNITY" ? (
                          <YourCommunity />
+                    ) : currentTab === "DISCOVER" ? (
+                         <DiscoverCommunity />
                     ) : null}
                </section>
           </div>
