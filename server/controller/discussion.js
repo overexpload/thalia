@@ -288,8 +288,6 @@ const getRecentDiscussion = async (req, res, next) => {
                 }
             }
         ])
-
-
         if (discussions) {
             res.status(200).json({
                 success: true,
@@ -392,6 +390,7 @@ const dislikeDiscussion = async (req, res, next) => {
  */
 const addComment = async (req, res, next) => {
     try {
+        console.log(req.body)
         const { discussion_id } = req.body;
         if (!discussion_id) {
             res.status(400)
@@ -491,7 +490,8 @@ const getComments = async (req, res, next) => {
         const comments = await Comment.aggregate([
             {
                 $match: {
-                    discussion_id: new mongoose.Types.ObjectId(id)
+                    discussion_id: new mongoose.Types.ObjectId(id),
+                    reply: { $exists: false }
                 }
             },
             {
@@ -726,5 +726,5 @@ module.exports = {
     addComment,
     getComments,
     getReplyCommemts,
-    deleteComment
+    deleteComment,
 }
