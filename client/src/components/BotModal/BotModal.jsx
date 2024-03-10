@@ -149,7 +149,11 @@ export default function BotModal({ openModal, setOpenModal }) {
             disabled={submit}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <button type="submit" className="mb-5 cursor-pointer">
+          <button
+            disabled={submit}
+            type="submit"
+            className="mb-5 cursor-pointer"
+          >
             <SendIcon />
           </button>
         </form>
