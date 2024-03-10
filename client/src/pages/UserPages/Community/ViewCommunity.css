@@ -1,0 +1,6 @@
+.view-community .left-side-bar {
+    height: calc(100vh - 55px);
+}
+.view-community .right-section {
+    height: calc(100vh - 70px);
+}

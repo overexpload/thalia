@@ -37,12 +37,8 @@ const authSlice = createSlice({
                 state.user = action.payload.user;
                 localStorage.setItem("user", JSON.stringify(action.payload.user));
                 localStorage.setItem("token", JSON.stringify(action.payload.token));
-                Cookies.set("token", action.payload.token, {
-                    secure: true,
-                    sameSite: "Lax",
-                    path: '/',
-                    expires: 3,
-                });
+                Cookies.set("token", action.payload.token, { expires: 3, sameSite: 'none', secure: true });
+
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
@@ -59,12 +55,8 @@ const authSlice = createSlice({
                 state.user = action.payload.user;
                 localStorage.setItem("user", JSON.stringify(action.payload.user));
                 localStorage.setItem("token", JSON.stringify(action.payload.token));
-                Cookies.set("token", action.payload.token, {
-                    secure: true,
-                    sameSite: "Lax",
-                    path: '/',
-                    expires: 3,
-                });
+                Cookies.set("token", action.payload.token, { expires: 3, sameSite: 'none', secure: true });
+
             })
             .addCase(signUp.rejected, (state, action) => {
                 state.isLoading = false;

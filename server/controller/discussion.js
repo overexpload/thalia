@@ -84,7 +84,7 @@ const createDiscussion = async (req, res, next) => {
 const getDiscussions = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const page = req.query.page;
+        const page = parseInt(req.query.page);
         if (!id) {
             res.status(400);
             throw new Error("community not found")
@@ -93,8 +93,22 @@ const getDiscussions = async (req, res, next) => {
             res.status(400);
             throw new Error("page not found")
         }
+        const totalCount = await Discussion.countDocuments({
+            community_id: new mongoose.Types.ObjectId(id),
+            is_delete: false
+        });
 
-
+        const totalPages = Math.ceil(totalCount / 10);
+        console.log(totalPages)
+        if (page > totalPages) {
+            res.status(200).json({
+                success: true,
+                message: "page doesn't exist",
+                discussions: []
+            })
+            return;
+        }
+        const skipValue = Math.max(0, (page - 1) * 10);
         const discussions = await Discussion.aggregate([
             {
                 $match: {
@@ -108,11 +122,9 @@ const getDiscussions = async (req, res, next) => {
                 }
             },
             {
-                $skip: (page - 1) * 10
+                $skip: skipValue
             },
-            {
-                $limit: 10
-            },
+
             {
                 $lookup: {
                     from: "comments",
@@ -173,7 +185,10 @@ const getDiscussions = async (req, res, next) => {
                     userProfile: 1,
                     comments: { $size: "$comments" },
                 }
-            }
+            },
+            {
+                $limit: Math.min(10, totalCount - (page - 1) * 10)
+            },
         ])
 
 
@@ -187,6 +202,7 @@ const getDiscussions = async (req, res, next) => {
             throw new Error('Internal server error')
         }
     } catch (error) {
+        console.log(error)
         next(error.message)
 
     }
@@ -288,8 +304,6 @@ const getRecentDiscussion = async (req, res, next) => {
                 }
             }
         ])
-
-
         if (discussions) {
             res.status(200).json({
                 success: true,
@@ -392,6 +406,7 @@ const dislikeDiscussion = async (req, res, next) => {
  */
 const addComment = async (req, res, next) => {
     try {
+        console.log(req.body)
         const { discussion_id } = req.body;
         if (!discussion_id) {
             res.status(400)
@@ -491,7 +506,8 @@ const getComments = async (req, res, next) => {
         const comments = await Comment.aggregate([
             {
                 $match: {
-                    discussion_id: new mongoose.Types.ObjectId(id)
+                    discussion_id: new mongoose.Types.ObjectId(id),
+                    reply: { $exists: false }
                 }
             },
             {
@@ -726,5 +742,5 @@ module.exports = {
     addComment,
     getComments,
     getReplyCommemts,
-    deleteComment
+    deleteComment,
 }

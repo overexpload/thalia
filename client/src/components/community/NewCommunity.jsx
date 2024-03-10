@@ -1,8 +1,11 @@
 import { Modal } from "flowbite-react";
 import { useState } from "react";
-import  PropTypes from "prop-types";
+import PropTypes from "prop-types";
+import { newCommunity } from "../../Services/communityService";
+import { useDispatch } from "react-redux";
 
 export default function NewCommunity({ showModal, setShowModal }) {
+     const dispatch = useDispatch();
      const [error, setError] = useState("");
      const [formData, setFormData] = useState({
           community_name: "",
@@ -15,13 +18,12 @@ export default function NewCommunity({ showModal, setShowModal }) {
           setFormData({ ...formData, [name]: value });
      }
 
-     function handleSubmit() {
-          if (formData.community_name && formData.topic) {
+     async function handleSubmit() {
+          if (formData.community_name) {
                setError("");
+               dispatch(newCommunity(formData));
           } else if (!formData.community_name) {
                setError("Please select a name");
-          } else if (!formData.topic) {
-               setError("Please select a topic");
           }
      }
      return (
