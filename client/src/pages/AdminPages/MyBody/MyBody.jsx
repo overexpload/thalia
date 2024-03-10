@@ -5,10 +5,14 @@ import { getTopics } from "../../../Services/bodyServices";
 import { deleteBody } from "../../../Services/bodyServices";
 import timeFormat from "../../../utils/timeFormat";
 import { toast } from "react-toastify";
+import { Pagination } from "flowbite-react";
+import Swal from "sweetalert2";
 
 function MyBody() {
   const [openModal, setOpenModal] = useState(false);
   const [bodyDeatails, setBodyDetails] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [count, setCount] = useState(0);
 
   const [editBody, setEditBody] = useState();
   const [editModal, setEditModal] = useState(false);
@@ -16,6 +20,7 @@ function MyBody() {
   const handleModal = () => {
     setOpenModal(true);
   };
+  const onPageChange = (page) => setCurrentPage(page);
   const handleEditModal = (bodyId) => {
     setEditModal(true);
     const bodyToEdit = bodyDeatails.find((body) => {
@@ -25,9 +30,10 @@ function MyBody() {
   };
   useEffect(() => {
     const getData = async () => {
-      const response = await getTopics();
+      const response = await getTopics(currentPage);
       if (response.success === true) {
         setBodyDetails(response.contents);
+        setCount(response.count)
       }
     };
     getData();
@@ -38,6 +44,7 @@ function MyBody() {
     setEditModal,
     editModal,
     setEditBody,
+    currentPage
   ]);
   const handleDelete = async (bodyId) => {
     const response = await deleteBody(bodyId);
@@ -65,7 +72,7 @@ function MyBody() {
             </div>
             <div className="px-8">
               <button
-                className="text-xl py-12 text-pretty text-primary underline"
+                className="text-xl py-12 text-pretty text-primary"
                 onClick={handleModal}
               >
                 Create
@@ -115,7 +122,18 @@ function MyBody() {
                           </button>
                           <button
                             className="border py-1 px-6 rounded ml-2 hover:bg-red-700"
-                            onClick={() => handleDelete(data?._id)}
+                            onClick={() => {
+                              Swal.fire({
+                                title: "Are you sure",
+                                text: "are you sure wan't to delete this",
+                                showCancelButton: true,
+                                confirmButtonText:"delete"
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                  handleDelete(data?._id);
+                                }
+                              });
+                            }}
                           >
                             Delete
                           </button>
@@ -127,6 +145,15 @@ function MyBody() {
               })}
             </table>
           </div>
+          <div className="flex z-20 mypage overflow-x-auto w-[80%] sm:justify-end">
+              {count > 10 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={Math.ceil(count / 10)}
+                  onPageChange={onPageChange}
+                />
+              )}
+            </div>
         </div>
       </div>
     </>

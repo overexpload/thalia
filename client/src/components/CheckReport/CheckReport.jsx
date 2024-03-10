@@ -41,7 +41,7 @@ function CheckReport({ openModal, setOpenModal, userReport }) {
                     <h2 id={`accordion-collapse-heading-${index}`}>
                       <button
                         type="button"
-                        className="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 gap-3"
+                        className="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-600 rounded-t-xl dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 gap-3"
                         data-accordion-target={`#accordion-collapse-body-${index}`}
                         aria-expanded={accordionStates[index]}
                         aria-controls={`accordion-collapse-body-${index}`}
@@ -75,7 +75,7 @@ function CheckReport({ openModal, setOpenModal, userReport }) {
                       className={accordionStates[index] ? "block" : "hidden"}
                       aria-labelledby={`accordion-collapse-heading-${index}`}
                     >
-                      <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                      <div className="p-5 border border-b-0 border-gray-600 dark:border-gray-700 dark:bg-gray-900">
                         <p className="mb-2 text-text dark:text-gray-400">
                           {report?.reason}
                         </p>

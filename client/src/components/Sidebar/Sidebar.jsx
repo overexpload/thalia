@@ -3,6 +3,7 @@ import { MdDashboard } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import { TbFileReport } from "react-icons/tb";
 import { IoBody } from "react-icons/io5";
+import { FaBrain } from "react-icons/fa";
 function Sidebar() {
   return (
     <>

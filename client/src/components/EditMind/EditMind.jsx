@@ -1,32 +1,31 @@
 import { Modal } from "flowbite-react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { editBody } from "../../Services/bodyServices";
+import { editMind } from "../../Services/mindServices";
 
-// eslint-disable-next-line react/prop-types
-function EditBody({ setOpenModal, openModal, bodyDetails }) {
+function EditMind({ setOpenModal, openModal, mindDetails }) {
   const [formData, setFormData] = useState({
     name: "",
     content: "",
   });
   useEffect(() => {
-    if (bodyDetails) {
+    console.log(mindDetails);
+    if (mindDetails) {
       setFormData({
-        name: bodyDetails?.name || "",
-        content: bodyDetails?.content || "",
+        name: mindDetails?.name || "",
+        content: mindDetails?.content || "",
       });
     }
-  }, [bodyDetails]);
+  }, [mindDetails]);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
-    });
+    }));
   };
-
   const handleEdit = async () => {
-    const response = await editBody(formData, bodyDetails?._id);
+    const response = await editMind(formData, mindDetails?._id);
     if (response.success === true) {
       toast.success(response.message);
       formData.name = "";
@@ -34,17 +33,16 @@ function EditBody({ setOpenModal, openModal, bodyDetails }) {
       setOpenModal(false);
     }
   };
-
   return (
     <>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header className="bg-gray-800">
-          <h1 className="text-white font-bold">Edit Topic</h1>
+          <h1 className="text-white font-bold">Add New Mind</h1>
         </Modal.Header>
-        <Modal.Body className="ring-1 bg-gray-800 rounded-b-md px-2 py-2">
+        <Modal.Body className="ring-1 bg-background rounded-b-md px-2 py-2">
           <div className="w-full">
             <label htmlFor="">
-              <h1 className="text-white py-2">Name of the Topic</h1>
+              <h1 className="text-white py-2">Name of the Mind</h1>
               <input
                 type="text"
                 className="w-full rounded-md bg-gray-700 text-text"
@@ -56,18 +54,19 @@ function EditBody({ setOpenModal, openModal, bodyDetails }) {
           </div>
           <div className="w-full mt-3">
             <label htmlFor="">
-              <h1 className="text-text py-2">Topic Description</h1>
+              <h1 className="text-text py-2">Provide the Mind Description</h1>
               <textarea
                 name="content"
                 value={formData?.content}
                 onChange={handleChange}
+                id=""
                 rows={8}
-                className="w-full rounded-md bg-gray-700 text-white "
+                className="w-full rounded-md bg-gray-700 text-white"
               ></textarea>
             </label>
           </div>
           <button
-            className="text-white border-0 px-5 py-1 hover:bg-primary bg-gray-500 hover:text-black rounded-md float-end"
+            className="text-primary border-2 px-5 py-1 hover:bg-primary hover:text-black rounded-md float-end"
             onClick={handleEdit}
           >
             Update
@@ -77,4 +76,4 @@ function EditBody({ setOpenModal, openModal, bodyDetails }) {
     </>
   );
 }
-export default EditBody;
+export default EditMind;
