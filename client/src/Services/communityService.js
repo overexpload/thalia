@@ -43,7 +43,6 @@ export const getComments = async (id) => {
     }
 }
 
-
 export const newCommunity = createAsyncThunk(
     "community/newCommunity",
     async (payload, thunkAPI) => {
@@ -74,3 +73,29 @@ export const getMyCommunity = createAsyncThunk(
             return thunkAPI.rejectWithValue(payload)
         }
     })
+
+//New Services
+export const getCommunitys = async () => {
+    try {
+        const response = await thaliaAPI.get('/admin/community', { withCredentials: true })
+        return response.data;
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const blockCommunitys = async (communityId) => {
+    try {
+        const response = await thaliaAPI.put(`/admin/community/block/${communityId}`, { withCredentials: true })
+        return response.data;
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const UnblockCommunitys = async (communityId) => {
+    try {
+        const response = await thaliaAPI.put(`/admin/community/unblock/${communityId}`, { withCredentials: true })
+        return response.data;
+    } catch (error) {
+        console.log(error)
+    }
+} 
