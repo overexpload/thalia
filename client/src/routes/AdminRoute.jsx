@@ -8,6 +8,9 @@ const Rights = lazy(() => import("../pages/AdminPages/Rights/Rights"));
 const Sidebar = lazy(() => import("../components/Sidebar/Sidebar"));
 const MyBody = lazy(() => import("../pages/AdminPages/MyBody/MyBody"));
 const MyMind = lazy(() => import("../pages/AdminPages/MyMind/MyMind"));
+const CommunityAdmin = lazy(() =>
+  import("../pages/AdminPages/Community/CommunityAdmin")
+);
 
 export default function AdminRoute() {
   return (
@@ -24,6 +27,7 @@ export default function AdminRoute() {
               <Route path={"/rights"} element={<Rights />} />
               <Route path={"/body"} element={<MyBody />} />
               <Route path={"/mind"} element={<MyMind />} />
+              <Route path={"/community"} element={<CommunityAdmin />} />
             </Routes>
           </Suspense>
         </div>
