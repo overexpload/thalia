@@ -4,6 +4,7 @@ import Loader from "../components/Loader/Loader1/Loader";
 import Authenticate from "../components/Auth/Authenticate";
 import Protect from "../components/Auth/Protect";
 import Community from "../pages/UserPages/Community/Community";
+import ViewCommunity from "../pages/UserPages/Community/ViewCommunity";
 
 const Home = lazy(() => import("../pages/UserPages/Home/Home"));
 const Signup = lazy(() => import("../pages/UserPages/Signup/Signup"));
@@ -45,6 +46,10 @@ export default function UserRoute() {
                               <Route
                                    path={"/community/:tab"}
                                    element={<Community />}
+                              />
+                              <Route
+                                   path={"/community/view/:id"}
+                                   element={<ViewCommunity />}
                               />
                          </Route>
                     </Routes>

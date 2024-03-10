@@ -187,6 +187,7 @@ const getDiscussions = async (req, res, next) => {
             throw new Error('Internal server error')
         }
     } catch (error) {
+        console.log(error)
         next(error.message)
 
     }

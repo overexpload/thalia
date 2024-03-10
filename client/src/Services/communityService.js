@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import thaliaAPI from "../API/thaliaAPI";
+import { toast } from "react-toastify";
 
 export const getRecentDiscussions = async (page) => {
     try {
@@ -104,3 +105,21 @@ export const joinCommunity = createAsyncThunk(
             return thunkAPI.rejectWithValue(payload)
         }
     })
+
+export const getDiscussions = async (id, pagination) => {
+    try {
+        const response = await thaliaAPI.get(`/community/discussions/${id}?page=${pagination}`);
+        return response.data;
+    } catch (error) {
+        toast.error("error while fetching discussion")
+    }
+}
+
+export const createDiscussion = async (payload) => {
+    try {
+        const response = await thaliaAPI.post('/community/discussions', payload);
+        return response.data;
+    } catch (error) {
+        toast.error(error.response?.data.message)
+    }
+}
