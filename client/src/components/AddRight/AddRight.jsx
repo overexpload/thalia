@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Modal } from "flowbite-react";
 import { createRight } from "../../Services/rightServices";
+import { toast } from "react-toastify";
 
 // eslint-disable-next-line react/prop-types
 function AddRight({ setOpenModal, openModal }) {
   const [formData, setFormData] = useState({
-    right_name: "",
-    right_desc: "",
+    name: "",
+    content: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,13 +18,18 @@ function AddRight({ setOpenModal, openModal }) {
   };
 
   const handleCreate = async () => {
-    if (!formData.right_name || !formData.right_desc) {
+    if (!formData.name || !formData.content) {
       console.log("Data fields Missing");
       return;
     }
     try {
       const response = await createRight(formData);
-      console.log("response in the page", response);
+      if (response.success === true) {
+        formData.name = "";
+        formData.content = "";
+        toast.success(response.message);
+        setOpenModal(false);
+      }
     } catch (error) {
       console.log("Error occurred", error);
     }
@@ -42,9 +48,9 @@ function AddRight({ setOpenModal, openModal }) {
               <input
                 type="text"
                 className="w-full rounded-md bg-gray-700 text-text"
-                value={formData.right_name}
+                value={formData.name}
                 onChange={handleChange}
-                name="right_name"
+                name="name"
               />
             </label>
           </div>
@@ -52,30 +58,17 @@ function AddRight({ setOpenModal, openModal }) {
             <label htmlFor="">
               <h1 className="text-text py-2">Provide the Right Description</h1>
               <textarea
-                name="right_desc"
-                value={formData.right_desc}
+                name="content"
+                value={formData.content}
                 onChange={handleChange}
                 id=""
                 rows={8}
                 className="w-full rounded-md bg-gray-700 text-white"
               ></textarea>
             </label>
-            {/* <div>
-              <label
-                className="block mb-2 text-sm font-medium text-text"
-                htmlFor="small_size"
-              >
-                Select the image
-              </label>
-              <input
-                className="block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                id="small_size"
-                type="file"
-              />
-            </div> */}
           </div>
           <button
-            className="text-primary border-2 px-2 py-2 rounded-md float-end"
+            className="text-primary border-2 px-5 py-1 hover:bg-primary hover:text-black rounded-md float-end"
             onClick={handleCreate}
           >
             Add Right

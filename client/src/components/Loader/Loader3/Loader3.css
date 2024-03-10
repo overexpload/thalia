@@ -1,0 +1,30 @@
+.load {
+  display: flex;
+  border-radius: 50%;
+  flex-direction: row;
+}
+
+.progress {
+  width: 0.5em;
+  height: 0.5em;
+  margin: 0.4em;
+  scale: 0;
+  border-radius: 50%;
+  background: rgb(82, 10, 10);
+  animation: loading_492 1s ease infinite;
+  animation-delay: 0.5s;
+}
+
+@keyframes loading_492 {
+  50% {
+    scale: 1;
+  }
+}
+
+.progress:nth-child(2) {
+  animation-delay: 1.3s;
+}
+
+.progress:nth-child(3) {
+  animation-delay: 1.7s;
+}

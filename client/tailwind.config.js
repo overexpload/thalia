@@ -12,12 +12,15 @@ export default {
       },
       gradientColorStops: {
         'custom-gradient': {
-          'start': '#e19eb7', 
-          'end': '#951947', 
+          'start': '#e19eb7',
+          'end': '#951947',
         },
       }
     },
   },
-  plugins: [require('flowbite/plugin'),],
+  plugins: [
+    require('flowbite/plugin'),
+    require('@tailwindcss/typography'),
+  ],
 }
 

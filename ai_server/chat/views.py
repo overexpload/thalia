@@ -4,13 +4,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from .llm_call import call as llm_call
 
-@api_view(["GET", "POST"])
-def home(request):
-    return Response(
-        {"success":True ,"message":"connected successfully"},
-        status=status.HTTP_200_OK
-        )
-
 @api_view(["POST"])
 def index(request):
     content: dict = request.data

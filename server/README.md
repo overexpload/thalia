@@ -1,4 +1,5 @@
-# Server [[Thalia](https://github.com/izam-mohammed/thalia)]
+# Server [[Thalia](https://github.com/Auto-Playground/thalia)]
+@hosted at [thalia-server.onrender.com](https://thalia-server.onrender.com/)
 
 Welcome to the Thalia server repository! This folder contains all the code for the backend of our website, including APIs, database configurations, and other server-side logic. Thalia server is built with Express.js and utilizes MongoDB as the database.
 
@@ -16,7 +17,7 @@ Welcome to the Thalia server repository! This folder contains all the code for t
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/izam-mohammed/thalia
+git clone https://github.com/Auto-Playground/thalia
 cd server
 ```
 

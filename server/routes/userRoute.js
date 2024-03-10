@@ -1,19 +1,10 @@
 const express = require('express');
+const { isLogedIn } = require('../middlewares/authMiddleware');
 const router = express.Router();
-const { signup, verifyMail, verifyOtp, signin } = require('../controller/authController');
-const profileRoute = require('./profileRoute')
-const userRightsRoute = require('./userRightsRoute')
-const userMyBodyRoute = require('./userMyBodyRoute') 
-const communityRoute = require('./communityRoute') 
-//authentication
-router.post('/signup', signup)
-router.post('/verify-mail', verifyMail)
-router.post('/verify-otp', verifyOtp)
-router.post('/signin', signin)
+const { getUsers, getUserDetails, reportUser } = require('../controller/userController')
 
-router.use('/profile', profileRoute)
-router.use('/rights', userRightsRoute)
-router.use('/my-body', userMyBodyRoute)
-router.use('/community', communityRoute)
+router.get('/', isLogedIn, getUsers)
+router.get('/:id', isLogedIn, getUserDetails)
+router.post('/report', isLogedIn, reportUser)
 
 module.exports = router;
