@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getMyCommunity, newCommunity } from "../Services/communityService";
+import { getAllCommunity, getMyCommunity, joinCommunity, newCommunity } from "../Services/communityService";
 import { toast } from "react-toastify";
 
 
@@ -43,7 +43,7 @@ export const communitySlice = createSlice({
 
         })
 
-        
+
         //get my community
         builder.addCase(getMyCommunity.pending, (state) => {
             state.isLoading = true;
@@ -60,53 +60,43 @@ export const communitySlice = createSlice({
 
         })
 
-        //     //get all community
-        //     builder.addCase(getAllCommunity.pending, (state) => {
-        //         state.isLoading = true;
-        //     })
-        //     builder.addCase(getAllCommunity.fulfilled, (state, action) => {
-        //         state.isLoading = false;
-        //         state.community = action.payload?.community
-        //         state.isSuccess = true;
-        //     })
-        //     builder.addCase(getAllCommunity.rejected, (state, action) => {
-        //         state.isError = true;
-        //         state.isLoading = false;
-        //         const error = action.payload as {
-        //             message: string,
-        //             status: number
-        //         };
-        //         state.errorMessage = error.message;
-        //         state.status = error.status;
+        //get all community
+        builder.addCase(getAllCommunity.pending, (state) => {
+            state.isLoading = true;
+        })
+        builder.addCase(getAllCommunity.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.community = action.payload?.community
+            state.isSuccess = true;
+        })
+        builder.addCase(getAllCommunity.rejected, (state) => {
+            state.isError = true;
+            state.isLoading = false;
+            toast.error('error while fetching community')
+        })
 
-        //     })
+        //join community
+        builder.addCase(joinCommunity.pending, (state) => {
+            state.isLoading = true;
+        })
+        builder.addCase(joinCommunity.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.community = state.community.map((item) => {
+                if (item._id === action.payload.member.community_id) {
+                    item.members.push(action.payload.member);
+                }
+                return item;
+            })
+            state.myCommunity = [{ ...action.payload?.community, members: action.payload?.members }, ...state.myCommunity]
+            state.isSuccess = true;
+        })
+        builder.addCase(joinCommunity.rejected, (state) => {
+            state.isError = true;
+            state.isLoading = false;
+            toast.error('error while joining community')
+        })
 
-        //     //join community
-        //     builder.addCase(joinCommunity.pending, (state) => {
-        //         state.isLoading = true;
-        //     })
-        //     builder.addCase(joinCommunity.fulfilled, (state, action) => {
-        //         state.isLoading = false;
-        //         state.community = state.community.map((item) => {
-        //             if (item._id === action.payload.newMember.community_id) {
-        //                 item.members.push(action.payload.newMember);
-        //             }
-        //             return item;
-        //         })
-        //         state.myCommunity = [{ ...action.payload?.community, members: action.payload?.members }, ...state.myCommunity]
-        //         state.isSuccess = true;
-        //     })
-        //     builder.addCase(joinCommunity.rejected, (state, action) => {
-        //         state.isError = true;
-        //         state.isLoading = false;
-        //         const error = action.payload as {
-        //             message: string,
-        //             status: number
-        //         };
-        //         state.errorMessage = error.message;
-        //         state.status = error.status;
 
-        //     })
         //     //accept join request
         //     builder.addCase(acceptJoinRequest.pending, (state) => {
         //         state.isLoading = true;

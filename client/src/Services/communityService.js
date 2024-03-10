@@ -74,3 +74,33 @@ export const getMyCommunity = createAsyncThunk(
             return thunkAPI.rejectWithValue(payload)
         }
     })
+
+export const getAllCommunity = createAsyncThunk(
+    "community/getAllCommunity",
+    async (_, thunkAPI) => {
+        try {
+            const { data } = await thaliaAPI.get('/community/get-suggestions');
+            return data;
+        } catch (err) {
+            const payload = {
+                status: err.response.data.status,
+                message: err.response.data.message
+            }
+            return thunkAPI.rejectWithValue(payload)
+        }
+    })
+
+export const joinCommunity = createAsyncThunk(
+    "community/joinCommunity",
+    async (community_id, thunkAPI) => {
+        try {
+            const { data } = await thaliaAPI.post('/community/join', { community_id });
+            return data;
+        } catch (err) {
+            const payload = {
+                status: err.response.data.status,
+                message: err.response.data.message
+            }
+            return thunkAPI.rejectWithValue(payload)
+        }
+    })
