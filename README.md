@@ -57,10 +57,13 @@ Thalia is a cutting-edge website designed to empower women in every aspect of th
 
 ## Technologies Used
 
-- **Frontend:** React.js, TailwindCSS, Redux      @hosted at [thalia.vercel.app](https://thalia.vercel.app/)
-- **Backend:** Express.js, Node.js                @hosted at [thalia-server.onrender.com](https://thalia-server.onrender.com/)
+- **Frontend:** React.js, TailwindCSS, Redux
+  > @hosted at [thalia.vercel.app](https://thalia.vercel.app/)
+- **Backend:** Express.js, Node.js
+  > @hosted at [thalia-server.onrender.com](https://thalia-server.onrender.com/)
 - **Database:** MongoDB
-- **Chat Bot:** Django Rest API                   @hosted ai [thalia-ai-server.vercel.app](https://thalia-ai-server.vercel.app/)
+- **Chat Bot:** Django Rest API
+  > @hosted ai [thalia-ai-server.vercel.app](https://thalia-ai-server.vercel.app/)
 - **AI models:** Huggingface and OpenAI
 
 ## Core Contributers
