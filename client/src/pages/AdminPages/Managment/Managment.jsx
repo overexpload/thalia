@@ -88,7 +88,7 @@ function Managment() {
                   return (
                     <>
                       <tbody key={index}>
-                        <tr className="border-b">
+                        <tr className="border-b border-gray-600">
                           <th scope="row" className="px-6 py-4 font-medium">
                             {user?.fullname}
                           </th>

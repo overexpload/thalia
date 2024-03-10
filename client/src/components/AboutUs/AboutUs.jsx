@@ -15,16 +15,17 @@ export default function AboutUs() {
                   What and why Thalia
                 </h2>
                 <p className="mb-10 text-text leading-relaxed text-body-color dark:text-dark-6">
+                  Thalia is a website that hosts communities for women and
+                  provides credible information on both physical and mental
+                  health topics that are essential for every woman.
+                  Additionally, there is a chatbot named Didi available for
+                  sharing emotions and receiving advice.
+                  <br />
+                  <br />
                   Our vision is to empower women by providing personalized
                   guidance, reliable learning resources, and a supportive
                   community, all while prioritizing their safety and
                   trustworthiness.
-                  <br />
-                  <br />
-                  We believe that women are like tea bags; their true strength
-                  shines through when faced with challenges. We're here to
-                  empower you. We firmly believe that when women support each
-                  other, amazing things happen.
                 </p>
 
                 <Link

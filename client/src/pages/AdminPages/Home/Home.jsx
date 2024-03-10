@@ -1,4 +1,4 @@
-import Figure from "../../../components/Figure/Figure";
+// import Figure from "../../../components/Figure/Figure";
 
 function Home() {
   return (
@@ -6,8 +6,7 @@ function Home() {
       <div className="h-screen  bg-background">
         <div className="col-span-9">
           <div className="flex justify-around py-5">
-            <Figure />
-            <Figure />
+            {/* <Figure /> */}
           </div>
         </div>
       </div>

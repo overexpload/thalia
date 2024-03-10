@@ -27,7 +27,7 @@ function Sidebar() {
           <button className="flex items-center px-4 py-2 rounded-md w-full mt-8 hover:bg-gray-800">
             <TbFileReport className="text-primary" />
             <Link className="ml-4 font-bold text-gray-500" to={"/admin/rights"}>
-              Rights Management
+              My Right
             </Link>
           </button>
           <button className="flex items-center px-4 py-2 rounded-md w-full mt-8 hover:bg-gray-800">
