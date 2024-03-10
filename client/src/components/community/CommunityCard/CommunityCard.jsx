@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { joinCommunity } from "../../../Services/communityService";
 
 export default function CommunityCard({ community, type }) {
      const navigate = useNavigate();
@@ -32,7 +33,7 @@ export default function CommunityCard({ community, type }) {
                               className="w-full h-28 object-cover"
                          />
                     ) : (
-                         <div className="icon-with-text h-full flex items-center justify-center bg-gray-300">
+                         <div className="icon-with-text h-full flex items-center justify-center bg-gray-500">
                               <h1 className="text-6xl w-full h-28 rounded-full  text-center flex justify-center items-center">
                                    {typeof community?.community_name ===
                                         "string" &&
@@ -65,8 +66,10 @@ export default function CommunityCard({ community, type }) {
                          </button>
                     ) : (
                          <button
-                              className="view-community w-full py-2 rounded-md bg-primary hover:bg-primary"
-                              onClick={() => dispatch()}
+                              className="view-community w-full py-2 rounded-md bg-accent hover:bg-primary"
+                              onClick={() =>
+                                   dispatch(joinCommunity(community._id))
+                              }
                          >
                               Join
                          </button>

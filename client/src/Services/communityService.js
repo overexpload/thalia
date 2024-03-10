@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import thaliaAPI from "../API/thaliaAPI";
+import { toast } from "react-toastify";
 
 export const getRecentDiscussions = async (page) => {
     try {
@@ -74,3 +75,51 @@ export const getMyCommunity = createAsyncThunk(
             return thunkAPI.rejectWithValue(payload)
         }
     })
+
+export const getAllCommunity = createAsyncThunk(
+    "community/getAllCommunity",
+    async (_, thunkAPI) => {
+        try {
+            const { data } = await thaliaAPI.get('/community/get-suggestions');
+            return data;
+        } catch (err) {
+            const payload = {
+                status: err.response.data.status,
+                message: err.response.data.message
+            }
+            return thunkAPI.rejectWithValue(payload)
+        }
+    })
+
+export const joinCommunity = createAsyncThunk(
+    "community/joinCommunity",
+    async (community_id, thunkAPI) => {
+        try {
+            const { data } = await thaliaAPI.post('/community/join', { community_id });
+            return data;
+        } catch (err) {
+            const payload = {
+                status: err.response.data.status,
+                message: err.response.data.message
+            }
+            return thunkAPI.rejectWithValue(payload)
+        }
+    })
+
+export const getDiscussions = async (id, pagination) => {
+    try {
+        const response = await thaliaAPI.get(`/community/discussions/${id}?page=${pagination}`);
+        return response.data;
+    } catch (error) {
+        toast.error("error while fetching discussion")
+    }
+}
+
+export const createDiscussion = async (payload) => {
+    try {
+        const response = await thaliaAPI.post('/community/discussions', payload);
+        return response.data;
+    } catch (error) {
+        toast.error(error.response?.data.message)
+    }
+}
