@@ -1,3 +1,4 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import thaliaAPI from "../API/thaliaAPI";
 
 export const getRecentDiscussions = async (page) => {
@@ -41,3 +42,35 @@ export const getComments = async (id) => {
         return error;
     }
 }
+
+
+export const newCommunity = createAsyncThunk(
+    "community/newCommunity",
+    async (payload, thunkAPI) => {
+        try {
+            const { data } = await thaliaAPI.post('/community', payload);
+            return data;
+        } catch (err) {
+            const payload = {
+                status: err.response.data.status,
+                message: err.response.data.message
+            }
+            return thunkAPI.rejectWithValue(payload)
+        }
+    })
+
+
+export const getMyCommunity = createAsyncThunk(
+    "community/getMyCommunity",
+    async (_, thunkAPI) => {
+        try {
+            const { data } = await thaliaAPI.get('/community/my-communities');
+            return data;
+        } catch (err) {
+            const payload = {
+                status: err.response.data.status,
+                message: err.response.data.message
+            }
+            return thunkAPI.rejectWithValue(payload)
+        }
+    })
