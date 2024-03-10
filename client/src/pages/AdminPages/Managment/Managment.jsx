@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CheckReport from "../../../components/CheckReport/CheckReport";
-import { getUsers } from "../../../Services/userService";
+import { getUsers, unBlockUser } from "../../../Services/userService";
 import { blockUser } from "../../../Services/userService";
 import { toast } from "react-toastify";
 
@@ -20,20 +20,38 @@ function Managment() {
     const fetchUsers = async () => {
       const response = await getUsers();
       if (response.success === true) {
-        console.log(response.userList);
         setUsers(response?.userList);
       }
     };
     fetchUsers();
-  }, []);
+  }, [setOpenModal, setUsers, setUserReport, userReport, openModal]);
 
   const handleBlock = async (userId) => {
     const response = await blockUser(userId);
     if (response?.success === true) {
+      const updatedUsers = users.map((user) => {
+        if (user._id === userId) {
+          return { ...user, is_blocked: true };
+        }
+        return user;
+      });
+      setUsers(updatedUsers);
       toast(response?.message);
     }
   };
-
+  const handleUnBlock = async (userId) => {
+    const response = await unBlockUser(userId);
+    if (response?.success === true) {
+      const updatedUsers = users.map((user) => {
+        if (user._id === userId) {
+          return { ...user, is_blocked: false };
+        }
+        return user;
+      });
+      setUsers(updatedUsers);
+      toast(response?.message);
+    }
+  };
   return (
     <>
       <CheckReport
@@ -88,7 +106,7 @@ function Managment() {
                             {user?.is_blocked ? (
                               <button
                                 className="border py-1 px-4 rounded hover:bg-green-700"
-                                onClick={() => handleBlock(user?._id)}
+                                onClick={() => handleUnBlock(user?._id)}
                               >
                                 UnBlock
                               </button>
