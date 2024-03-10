@@ -66,7 +66,7 @@ function EditRight({ setOpenModal, openModal, rightDetails }) {
             </label>
           </div>
           <button
-            className="text-primary border-2 px-2 py-2 rounded-md float-end"
+            className="text-primary border-2 px-5 py-1 hover:bg-primary hover:text-black rounded-md float-end"
             onClick={handleEdit}
           >
             Update
