@@ -84,7 +84,7 @@ const createDiscussion = async (req, res, next) => {
 const getDiscussions = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const page = req.query.page;
+        const page = parseInt(req.query.page);
         if (!id) {
             res.status(400);
             throw new Error("community not found")
@@ -93,8 +93,22 @@ const getDiscussions = async (req, res, next) => {
             res.status(400);
             throw new Error("page not found")
         }
+        const totalCount = await Discussion.countDocuments({
+            community_id: new mongoose.Types.ObjectId(id),
+            is_delete: false
+        });
 
-
+        const totalPages = Math.ceil(totalCount / 10);
+        console.log(totalPages)
+        if (page > totalPages) {
+            res.status(200).json({
+                success: true,
+                message: "page doesn't exist",
+                discussions: []
+            })
+            return;
+        }
+        const skipValue = Math.max(0, (page - 1) * 10);
         const discussions = await Discussion.aggregate([
             {
                 $match: {
@@ -108,11 +122,9 @@ const getDiscussions = async (req, res, next) => {
                 }
             },
             {
-                $skip: (page - 1) * 10
+                $skip: skipValue
             },
-            {
-                $limit: 10
-            },
+
             {
                 $lookup: {
                     from: "comments",
@@ -173,7 +185,10 @@ const getDiscussions = async (req, res, next) => {
                     userProfile: 1,
                     comments: { $size: "$comments" },
                 }
-            }
+            },
+            {
+                $limit: Math.min(10, totalCount - (page - 1) * 10)
+            },
         ])
 
 

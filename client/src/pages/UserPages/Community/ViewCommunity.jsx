@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { RiGitRepositoryPrivateFill } from "react-icons/ri";
 import { FaUserPlus } from "react-icons/fa";
-import { FaFileCirclePlus } from "react-icons/fa6";
 import "./ViewCommunity.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,6 +12,7 @@ import {
 import DiscussionCard from "../../../components/community/DiscussionCard/DiscussionCard";
 import { resetCommunity } from "../../../features/communitySlice";
 import NewDiscussion from "../../../components/community/NewDiscussion/NewDiscussion";
+import NewRequest from "../../../components/community/NewRequest/NewRequest";
 
 export default function ViewCommunity() {
      const navigate = useNavigate();
@@ -23,6 +23,7 @@ export default function ViewCommunity() {
      const [discussion, setDiscussion] = useState([]);
      const [showDropDown, setShowDropDown] = useState("hidden");
      const pagination = useRef(1);
+     const [openNewRequest, setOpenNewRequest] = useState(false);
      const { myCommunity, isSuccess, isError } = useSelector(
           (state) => state.community
      );
@@ -35,7 +36,10 @@ export default function ViewCommunity() {
                     currentCommunity._id,
                     pagination.current
                );
-               if (response.discussions.length > 0) {
+               if (
+                    response.discussions.length > 0 ||
+                    pagination.current === 1
+               ) {
                     if (pagination.current === 1) {
                          setDiscussion(response.discussions);
                     } else {
@@ -50,6 +54,7 @@ export default function ViewCommunity() {
 
      useEffect(() => {
           if (currentCommunity) {
+               pagination.current = 1;
                fetchDiscussion();
           }
           // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -104,7 +109,7 @@ export default function ViewCommunity() {
      return (
           <section className="view-community grid grid-cols-12 relative text-text">
                <section
-                    className={`col-span-12 ${showDropDown} sm:block sm:col-span-5 md:col-span-5 lg:col-span-3 z-20`}
+                    className={`col-span-12 ${showDropDown} sm:block sm:col-span-3 z-20`}
                     onClick={() => setShowDropDown("hidden")}
                >
                     <div
@@ -161,7 +166,7 @@ export default function ViewCommunity() {
                               })}
                     </div>
                </section>
-               <section className="body col-span-12 sm:col-span-7 md:col-span-7 lg:col-span-9">
+               <section className="body col-span-12 sm:col-span-9">
                     <header className="header flex justify-between shadow-lg p-2 px-5">
                          <div className="profile flex gap-3">
                               <div className="icon h-16 w-28  rounded-md flex items-center justify-center relative">
@@ -183,7 +188,7 @@ export default function ViewCommunity() {
                               </div>
                               <h1
                                    className="text-2xl"
-                                   //    onClick={() => setOpenDrawer(true)}
+                                   //   onClick={() => setOpenDrawer(true)}
                               >
                                    {currentCommunity?.community_name}
                               </h1>
@@ -191,7 +196,7 @@ export default function ViewCommunity() {
                          {member && member.is_admin && (
                               <button
                                    className="text-2xl"
-                                   //    onClick={() => setOpenNewRequest(true)}
+                                   onClick={() => setOpenNewRequest(true)}
                               >
                                    <FaUserPlus />
                               </button>
@@ -200,16 +205,9 @@ export default function ViewCommunity() {
                     <body className="container grid grid-cols-12 p-5">
                          <section className="discussion-section col-span-12 lg:col-span-8">
                               <div className="new-discusssion flex items-center gap-3">
-                                   <div
-                                        className="file-upload-button text-3xl text-primary "
-                                        // onClick={() => setOpenMediaUpload(true)}
-                                   >
-                                        <FaFileCirclePlus />
-                                   </div>
-                                   <input type="hidden" />
                                    <button
-                                        className="new-text-discussion-input w-5/6 h-12 rounded bg-gray-700 flex justify-start items-center px-3 text-slate-500"
-                                        // onClick={() => setNewDiscussion(true)}
+                                        className="new-text-discussion-input w-5/6 ms-10 h-12 rounded bg-gray-700 flex justify-start items-center px-3 text-slate-500"
+                                        onClick={() => setNewDiscussion(true)}
                                    >
                                         Write Something
                                    </button>
@@ -269,15 +267,15 @@ export default function ViewCommunity() {
                     community={currentCommunity}
                     setDiscussion={setDiscussion}
                />
-               {/* <CommunityDrawer
-                    openDrawer={openDrawer}
-                    setOpenDrawer={setOpenDrawer}
-                    community={currentCommunity}
-                    setCommunity={setCurrentCommunity}
-               />
                <NewRequest
                     openDrawer={openNewRequest}
                     setOpenDrawer={setOpenNewRequest}
+                    community={currentCommunity}
+                    setCommunity={setCurrentCommunity}
+               />
+               {/* <CommunityDrawer
+                    openDrawer={openDrawer}
+                    setOpenDrawer={setOpenDrawer}
                     community={currentCommunity}
                     setCommunity={setCurrentCommunity}
                />
