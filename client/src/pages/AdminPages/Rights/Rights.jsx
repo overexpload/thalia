@@ -63,7 +63,7 @@ function Rights() {
             </div>
             <div className="px-8">
               <button
-                className="text-xl py-12 text-pretty text-black bg-primary"
+                className="text-xl py-12 text-pretty text-primary"
                 onClick={handleModal}
               >
                 Create
