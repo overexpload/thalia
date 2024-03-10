@@ -10,7 +10,7 @@ router.post('/join', isLogedIn, joinCommunity)
 router.get('/pending-request/:id', isLogedIn, pendingRequest)
 router.post('/accept-join', isLogedIn, acceptJoin)
 router.get('/my-communities', isLogedIn, getmyCommunities)
-router.get('/get-details/:id', isLogedIn, getDetails)
+router.get('/get_details/:id', isLogedIn, getDetails)
 
 
 //discussion

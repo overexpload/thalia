@@ -85,7 +85,7 @@ export default function MyBodyPage() {
           {count > 0 && (
             <Pagination
               currentPage={currentPage}
-              totalPages={parseInt(count / 10)}
+              totalPages={Math.ceil(count / 10)}
               onPageChange={onPageChange}
             />
           )}

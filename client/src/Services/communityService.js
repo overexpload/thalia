@@ -13,7 +13,7 @@ export const getRecentDiscussions = async (page) => {
 
 export const getCommunity = async function (communityId) {
     try {
-        const response = await thaliaAPI.get(`/community/get-details/${communityId}`);
+        const response = await thaliaAPI.get(`/community/get_details/${communityId}`);
         return response;
     } catch (error) {
         return error

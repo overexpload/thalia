@@ -58,7 +58,7 @@ export default function NewDiscussion({
                onClose={() => setOpenModal(false)}
                popup
           >
-               <Modal.Body className="bg-gray-800 border text-white">
+               <Modal.Body className="bg-gray-800 rounded-md shadow-xl text-white">
                     {isLoading ? (
                          <Loader />
                     ) : (

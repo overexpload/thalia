@@ -32,15 +32,15 @@ export default function UserHome() {
           className="absolute opacity-10 top-0 hidden md:inline-block md:w-full z-10"
           alt=""
         />
-        <div className="fixed chat-didi flex justify-center right-7 md:bottom-10 md:right-10 z-20">
+        <div className="fixed chat-didi flex justify-center right-7 md:bottom-24 md:right-14 z-20">
           <div className="bg-text my-tooltip mr-[-25px] pr-9 px-3 py-1 rounded-s-full">
-            <h1 className="text-secondary mt-2 font-semibold">
+            <h1 className="text-secondary mt-3 font-semibold">
               Chat with Didi
             </h1>
           </div>
           <div
             onClick={() => setOpenModal(true)}
-            className="w-12 h-12 cursor-pointer  rounded-full flex items-center justify-center bg-text"
+            className="w-14 h-14 cursor-pointer  rounded-full flex items-center justify-center bg-text"
           >
             <img src={Chat} alt="" className="w-8 z-40 " />
           </div>

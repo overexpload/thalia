@@ -198,7 +198,6 @@ const getmyCommunities = async (req, res, next) => {
 const getDetails = async (req, res, next) => {
     try {
         const id = req.params.id;
-        console.log(id)
         if (!id) {
             throw new Error('communit not found')
         }
