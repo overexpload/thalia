@@ -132,7 +132,7 @@ export default function ViewCommunity() {
                               myCommunity.map((item, index) => {
                                    return (
                                         <div
-                                             className={`community-choose-card mb-3 flex gap-3 overflow-hidden items-center ${
+                                             className={`community-choose-card justify-center mb-3 flex gap-3 overflow-hidden items-center ${
                                                   item._id !== id
                                                        ? "bg-gray-800"
                                                        : "bg-gray-700"
@@ -156,7 +156,7 @@ export default function ViewCommunity() {
                                                        </h1>
                                                   )}
                                              </div>
-                                             <div className="deatils">
+                                             <div className="deatils flex items-center justify-center h-full">
                                                   <h1 className="text-lg">
                                                        {item.community_name}
                                                   </h1>
@@ -177,7 +177,7 @@ export default function ViewCommunity() {
                                              className="h-14 w-14 rounded-md"
                                         />
                                    ) : (
-                                        <h1 className="text-2xl bg-gray-700 px-8 py-3 rounded-md">
+                                        <h1 className="text-2xl bg-gray-700 text-text  px-8 py-3 rounded-md">
                                              {currentCommunity?.community_name[0].toUpperCase()}
                                         </h1>
                                    )}

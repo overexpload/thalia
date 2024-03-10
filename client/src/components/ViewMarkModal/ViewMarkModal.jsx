@@ -22,7 +22,7 @@ export default function ViewMarkModal({
       >
         <Modal.Header>{content.name}</Modal.Header>
         <Modal.Body>
-          <ReactMarkdown className="prose lg:prose-xl">
+          <ReactMarkdown className="prose md:ps-32 lg:prose-xl">
             {content.content}
           </ReactMarkdown>
         </Modal.Body>
