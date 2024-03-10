@@ -25,6 +25,7 @@ const isLogedIn = async (req, res, next) => {
             throw new Error('Not authorized, token failed')
         }
     } catch (error) {
+        console.log(error)
         res.status(401);
         next(error.message);
     }

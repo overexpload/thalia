@@ -6,7 +6,7 @@ const thaliaAPI = axios.create({
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${JSON.parse(token)}`
     }
 });
 
