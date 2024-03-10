@@ -9,8 +9,7 @@ const { notFound, errorHandler } = require('./middlewares/errorMiddlewares')
 
 const userRoute = require('./routes/indexRoute.js')
 const adminRoute = require('./routes/adminRoute.js')
-// const ORIGIN = process.env.NODE_ENV === 'development' ? "http://localhost:4000" : 'https://thalia.vercel.app'
-const ORIGIN = ["http://localhost:4000", 'https://thalia.vercel.app']
+const ORIGIN = process.env.NODE_ENV === 'development' ? "http://localhost:4000" : 'https://thalia.vercel.app'
 const corsConfig = {
     origin: ORIGIN,
     credentials: true,
@@ -25,6 +24,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser());
 app.use(cors(corsConfig))
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', ORIGIN);
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+    next();
+});
 
 //routes
 app.use('/api', userRoute)
