@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllCommunity, getMyCommunity, joinCommunity, newCommunity } from "../Services/communityService";
+import { acceptJoinRequest, getAllCommunity, getMyCommunity, joinCommunity, newCommunity } from "../Services/communityService";
 import { toast } from "react-toastify";
 
 
@@ -97,37 +97,31 @@ export const communitySlice = createSlice({
         })
 
 
-        //     //accept join request
-        //     builder.addCase(acceptJoinRequest.pending, (state) => {
-        //         state.isLoading = true;
-        //     })
-        //     builder.addCase(acceptJoinRequest.fulfilled, (state, action) => {
-        //         state.isLoading = false;
-        //         state.community = state.community.map((item) => {
-        //             if (item._id === action.payload.member.community_id) {
-        //                 item.members.map((member) => {
-        //                     if (member.user_id === action.payload.member.user_id) {
-        //                         member.status = action.payload.member.status
-        //                     }
-        //                     return member;
-        //                 })
-        //             }
-        //             return item;
-        //         })
+        //accept join request
+        builder.addCase(acceptJoinRequest.pending, (state) => {
+            state.isLoading = true;
+        })
+        builder.addCase(acceptJoinRequest.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.community = state.community.map((item) => {
+                if (item._id === action.payload.member.community_id) {
+                    item.members.map((member) => {
+                        if (member.user_id === action.payload.member.user_id) {
+                            member.status = action.payload.member.status
+                        }
+                        return member;
+                    })
+                }
+                return item;
+            })
 
-        //         state.isSuccess = true;
-        //     })
-        //     builder.addCase(acceptJoinRequest.rejected, (state, action) => {
-        //         state.isError = true;
-        //         state.isLoading = false;
-        //         const error = action.payload as {
-        //             message: string,
-        //             status: number
-        //         };
-        //         state.errorMessage = error.message;
-        //         state.status = error.status;
-
-        //     })
+            state.isSuccess = true;
+        })
+        builder.addCase(acceptJoinRequest.rejected, (state) => {
+            state.isError = true;
+            state.isLoading = false
+            toast('Error while accepting request')
+        })
         //     //accept join request
         //     builder.addCase(editCommunity.pending, (state) => {
         //         state.isLoading = true;

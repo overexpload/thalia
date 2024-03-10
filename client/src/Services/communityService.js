@@ -105,6 +105,20 @@ export const joinCommunity = createAsyncThunk(
             return thunkAPI.rejectWithValue(payload)
         }
     })
+export const acceptJoinRequest = createAsyncThunk(
+    "community/acceptJoinRequest",
+    async (payload, thunkAPI) => {
+        try {
+            const { data } = await thaliaAPI.post('/community/accept-join', payload);
+            return data;
+        } catch (err) {
+            const payload = {
+                status: err.response.data.status,
+                message: err.response.data.message
+            }
+            return thunkAPI.rejectWithValue(payload)
+        }
+    })
 
 export const getDiscussions = async (id, pagination) => {
     try {
