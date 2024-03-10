@@ -36,6 +36,12 @@ function Sidebar() {
               My Body
             </button>
           </Link>
+          <Link className="ml-4 font-bold text-gray-500" to={"/admin/mind"}>
+            <button className="flex items-center px-4 py-2 rounded-md w-full mt-8 hover:bg-gray-800">
+              <FaBrain className="text-primary" />
+              My Mind
+            </button>
+          </Link>
         </div>
       </div>
     </>
