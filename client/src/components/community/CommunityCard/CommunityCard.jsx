@@ -32,7 +32,7 @@ export default function CommunityCard({ community, type }) {
                               className="w-full h-28 object-cover"
                          />
                     ) : (
-                         <div className="icon-with-text h-full flex items-center justify-center bg-gray-300">
+                         <div className="icon-with-text h-full flex items-center justify-center bg-gray-500">
                               <h1 className="text-6xl w-full h-28 rounded-full  text-center flex justify-center items-center">
                                    {typeof community?.community_name ===
                                         "string" &&
