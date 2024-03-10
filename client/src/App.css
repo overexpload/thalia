@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 *::-webkit-scrollbar-track {
   background: #291f3a;
 }
@@ -24,3 +30,9 @@
   color: rgb(168, 145, 174) !important;
 }
 
+.chat-didi:hover .my-tooltip {
+  display: inline-block;
+}
+.my-tooltip {
+  display: none;
+}

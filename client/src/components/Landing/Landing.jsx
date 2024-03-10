@@ -14,11 +14,13 @@ export default function Landing() {
               data-wow-delay=".2s"
             >
               <h1 className="mb-6 font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 sm:leading-snug lg:text-5xl lg:leading-[1.2]">
-                A Platform where community meets empowerment.
+                “We cannot all succeed when half of us are held back." <br />
+                <span className="text-2xl">- Malala Yousafzai</span>
               </h1>
               <p className="mx-auto mb-9 max-w-[600px] text-base font-medium text-text sm:text-lg sm:leading-[1.44]">
-                Welcome to Thalia, your ultimate guide to strength, support, and
-                sisterhood.
+                Welcome to <span className="font-bold">Thalia</span>, Here we
+                are empowering women through proper guidance and a powerful
+                community.
               </p>
               <ul className="mb-10 flex flex-wrap items-center justify-center gap-5">
                 <li>
@@ -34,7 +36,7 @@ export default function Landing() {
                     to={"/signup"}
                     className="flex items-center gap-4 rounded-md bg-white/[0.12] px-6 py-[14px] text-base font-medium text-white transition duration-300 ease-in-out hover:bg-primary hover:text-background"
                   >
-                    Siginup
+                    Signup
                   </Link>
                 </li>
               </ul>
