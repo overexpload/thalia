@@ -38,7 +38,7 @@ const authSlice = createSlice({
                 localStorage.setItem("user", JSON.stringify(action.payload.user));
                 Cookies.set("token", action.payload.token, {
                     secure: true,
-                    sameSite: "Lax",
+                    sameSite: "none",
                     path: '/',
                     expires: 3,
                 });
@@ -59,7 +59,7 @@ const authSlice = createSlice({
                 localStorage.setItem("user", JSON.stringify(action.payload.user));
                 Cookies.set("token", action.payload.token, {
                     secure: true,
-                    sameSite: "Lax",
+                    sameSite: "none",
                     path: '/',
                     expires: 3,
                 });
