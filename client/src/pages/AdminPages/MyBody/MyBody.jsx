@@ -65,7 +65,7 @@ function MyBody() {
             </div>
             <div className="px-8">
               <button
-                className="text-xl py-12 text-pretty text-primary underline"
+                className="text-xl py-12 text-pretty text-primary"
                 onClick={handleModal}
               >
                 Create
