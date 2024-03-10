@@ -113,13 +113,13 @@ export default function Signup() {
         isSubmit={submit}
         setFormSubmit={setFormSubmit}
       />
-      <div className="max-h-screen pt-28 md:pt-14 pb-56 md:pb-40 bg-gradient-to-r from-[#2d1525] to-background flex flex-col justify-center ">
+      <div className="min-h-screen pt-28 md:pt-14 pb-56 md:pb-40 bg-gradient-to-r from-[#2d1525] to-background flex flex-col justify-center ">
         <div className="relative py-3 sm:max-w-xl sm:mx-auto">
           <div className="absolute inset-0 bg-gradient-to-r from-secondary to-primary shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
           <div className="relative md:w-[30rem] bg-text shadow-lg rounded-3xl p-10">
             <div className="max-w-md mx-auto">
               <div>
-                <h1 className="text-2xl font-semibold">Sigup</h1>
+                <h1 className="text-2xl font-semibold">Signup</h1>
               </div>
               {serverError && (
                 <div className="w-full bg-red-200 flex items-center justify-center p-1 mt-3 rounded-md text-red-600">
@@ -143,7 +143,7 @@ export default function Signup() {
                       </small>
                     )}
                     <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
-                      Full Name
+                      Name
                     </label>
                   </div>
                   <div className="relative">
@@ -159,7 +159,7 @@ export default function Signup() {
                       <small className="text-red-700">{formError.email}</small>
                     )}
                     <label className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
-                      Email Address
+                      Email
                     </label>
                   </div>
                   <div className="relative">
@@ -183,12 +183,14 @@ export default function Signup() {
                   <div className="relative">
                     <button
                       onClick={handleSubmit}
-                      className="bg-secondary mt-3 text-white rounded-md w-full py-1"
+                      className="bg-secondary mt-3 mb-2 text-white rounded-md w-full py-1"
                     >
                       Submit
                     </button>
                     <Link to={"/login"}>
-                      <small className="text-blue-500 cursor-pointer hover:underline">Already have account?</small>
+                      <small className="text-blue-500 cursor-pointer hover:underline">
+                        Already have account?
+                      </small>
                     </Link>
                   </div>
                 </div>
