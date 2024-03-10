@@ -1,0 +1,1 @@
+import{j as s}from"./index-C-3fXsNk.js";function a(){return s.jsx(s.Fragment,{children:s.jsx("div",{className:"h-screen  bg-background",children:s.jsx("div",{className:"col-span-9",children:s.jsx("div",{className:"flex justify-around py-5"})})})})}export{a as default};
