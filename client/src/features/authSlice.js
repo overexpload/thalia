@@ -36,7 +36,12 @@ const authSlice = createSlice({
                 state.isSuccess = true;
                 state.user = action.payload.user;
                 localStorage.setItem("user", JSON.stringify(action.payload.user));
-                Cookies.set("token", action.payload.token, { expires: 3 });
+                Cookies.set("token", action.payload.token, {
+                    secure: true,
+                    sameSite: "Lax",
+                    path: '/',
+                    expires: 3,
+                });
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
@@ -52,7 +57,12 @@ const authSlice = createSlice({
                 state.isSuccess = true;
                 state.user = action.payload.user;
                 localStorage.setItem("user", JSON.stringify(action.payload.user));
-                Cookies.set("token", action.payload.token, { expires: 3 });
+                Cookies.set("token", action.payload.token, {
+                    secure: true,
+                    sameSite: "Lax",
+                    path: '/',
+                    expires: 3,
+                });
             })
             .addCase(signUp.rejected, (state, action) => {
                 state.isLoading = false;
