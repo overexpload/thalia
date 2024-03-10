@@ -36,6 +36,7 @@ const authSlice = createSlice({
                 state.isSuccess = true;
                 state.user = action.payload.user;
                 localStorage.setItem("user", JSON.stringify(action.payload.user));
+                localStorage.setItem("token", JSON.stringify(action.payload.token));
                 Cookies.set("token", action.payload.token, {
                     secure: true,
                     sameSite: "Lax",
@@ -57,6 +58,7 @@ const authSlice = createSlice({
                 state.isSuccess = true;
                 state.user = action.payload.user;
                 localStorage.setItem("user", JSON.stringify(action.payload.user));
+                localStorage.setItem("token", JSON.stringify(action.payload.token));
                 Cookies.set("token", action.payload.token, {
                     secure: true,
                     sameSite: "Lax",
