@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CheckReport from "../../../components/CheckReport/CheckReport";
-import { getUsers } from "../../../Services/userService";
+import { getUsers, unBlockUser } from "../../../Services/userService";
 import { blockUser } from "../../../Services/userService";
 import { toast } from "react-toastify";
 
@@ -24,11 +24,25 @@ function Managment() {
         setUsers(response?.userList);
       }
     };
+    console.log("running")
     fetchUsers();
-  }, []);
+  }, [setOpenModal, setUsers, setUserReport]);
 
   const handleBlock = async (userId) => {
     const response = await blockUser(userId);
+    if (response?.success === true) {
+      const getUser = users.find((user) => {
+        return user._id === userId
+      }) 
+      if(getUser) {
+        console.log("OO+>",getUser)
+      }
+      toast(response?.message);
+    }
+  };
+
+  const handleUnBlock = async (userId) => {
+    const response = await unBlockUser(userId);
     if (response?.success === true) {
       toast(response?.message);
     }
@@ -88,7 +102,7 @@ function Managment() {
                             {user?.is_blocked ? (
                               <button
                                 className="border py-1 px-4 rounded hover:bg-green-700"
-                                onClick={() => handleBlock(user?._id)}
+                                onClick={() => handleUnBlock(user?._id)}
                               >
                                 UnBlock
                               </button>
