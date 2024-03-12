@@ -12,7 +12,7 @@ export default function ViewMarkModal({
     <>
       <Modal
         size={"6xl"}
-        className="p-10"
+        className="md:p-10"
         show={openModal}
         position={"top-center"}
         onClose={() => {
